@@ -4,12 +4,6 @@ if [ `whoami` != 'root' ]; then
 	echo "need to run as root, or with sudo"; exit
 fi
 
-#get version number
-ubuntu_version=`lsb_release -a 2>/dev/null | grep release -i | cut -f2`
-if [ -z "$ubuntu_version" ]; then
-	ubuntu_version="15.10";
-fi
-
 echo -n "###############################
 #     _    ____  _   _ ____   #
 #    / \  |  _ \| | | |  _ \  #
@@ -42,15 +36,40 @@ else
 fi
 echo
 
-echo "Updating Sources"
-apt-get update > /dev/null 2>&1
+#get Linux version, determine package manager:
 
-#echo "Installing pre-dependencies"
-#while read pa; do
-#	if [[ $pa != *"#"* ]]; then
-#		apt-get -y install $pa
-#	fi
-#done < package_list.txt
+distro=`lsb_release -is`
+package_manager=""
+if [ $distro == 'Ubuntu' ]; then
+	package_manager=apt-get
+elif [ $distro == 'Fedora' ]; then
+	package_manager=dnf
+elif [ $distro == 'CentOS' ]; then
+	package_manager=yum
+else
+	echo "Unknown Linux distribution."
+	exit 1
+fi
+
+echo -n "Detected that the operating system is $distro, and will use $package_manager as the system package manager to install dependencies.
+If this is incorrect, enter the correct package manager.
+Package manager [$package_manager]: "
+read package_manager_input
+echo
+
+if [ ${#package_manager_input} != 0 ]; then
+	package_manager=$package_manager_input
+fi
+
+echo "Updating Sources"
+$package_manager update > /dev/null 2>&1
+
+echo "Installing prerequisite packages for ADHD"
+while read prereq; do
+	if [[ $prereq != *"#"* ]]; then
+		$package_manager -y install $prereq
+	fi
+done < prerequisites.txt
 
 
 # Link to auxilliary scripts here!
