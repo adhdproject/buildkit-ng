@@ -25,11 +25,7 @@ uninstall() {
 		exit 2;
 	fi
 
-	#git clone https://github.com/BinaryDefense/artillery.git
-	#pushd artillery > /dev/null
 	/var/artillery/setup.py -y
-	#popd > /dev/null
-	#rm -rf artillery
 
 	echo "
 	Artillery uninstalled!"
