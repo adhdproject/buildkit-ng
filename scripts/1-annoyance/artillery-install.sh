@@ -4,8 +4,8 @@
 
 install() {
 	if [ -d "/var/artillery" ]; then
-		echo "Artillery is already installed. Exiting.";
-		exit 2;
+		echo "Artillery is already installed. Exiting."
+		exit 2
 	fi
 	
 	git clone https://github.com/BinaryDefense/artillery.git
@@ -21,8 +21,8 @@ install() {
 
 uninstall() {
 	if [ ! -d "/var/artillery" ]; then
-		echo "Artillery is not installed. Nothing to do.";
-		exit 2;
+		echo "Artillery is not installed. Nothing to do."
+		exit 2
 	fi
 
 	/var/artillery/setup.py -y
@@ -48,5 +48,3 @@ case "$1" in
 		sudo ./artillery-install.sh [-u|--uninstall]
 		";;
 esac
-
-
