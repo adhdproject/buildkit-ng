@@ -40,7 +40,7 @@ case "$1" in
 		uninstall;;
 	*)
 		echo "Usage:
-		sudo ./bear_trap-install.sh [-i|--install]
-		sudo ./bear_trap-install.sh [-u|--uninstall]
+		sudo ./beartrap-install.sh [-i|--install]
+		sudo ./beartrap-install.sh [-u|--uninstall]
 		";;
 esac
