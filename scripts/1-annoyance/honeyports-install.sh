@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Time to install Bear Trap!
+# Time to install Honey Ports!
 
 install() {
 	if [ -d "/opt/honeyports/cross-platform/honeyports/" ]; then
