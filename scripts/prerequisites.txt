@@ -1,4 +1,8 @@
 python
+python-pip
+pip
 python3.6
 python36
+python3-pip
+pip3
 ruby
