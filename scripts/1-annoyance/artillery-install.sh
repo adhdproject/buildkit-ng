@@ -33,7 +33,7 @@ uninstall() {
 }
 
 if [ `whoami` != 'root' ]; then
-        echo "Artillery can only be installed with root or sudo.";
+        echo "Artillery can only be installed or uninstalled with root or sudo.";
 	exit 1
 fi
 
