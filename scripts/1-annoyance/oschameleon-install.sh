@@ -8,8 +8,10 @@ install() {
 		exit 2
 	fi
 	
+	pip install gevent # Prereq not in repo's requirements.txt file
+
 	git clone https://github.com/mushorg/oschameleon.git
-	mv oschameleon/ /opt/
+	mv oschameleon/oschameleon /opt/
 
 	pip install -r /opt/oschameleon/requirements.txt
 

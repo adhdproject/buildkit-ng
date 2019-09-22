@@ -6,3 +6,4 @@ python36
 python3-pip
 pip3
 ruby
+python-nfqueue
