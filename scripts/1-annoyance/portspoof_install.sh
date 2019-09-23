@@ -1,15 +1,19 @@
 #!/bin/bash
 
-# Time to install PHP-HTTP-Tarpit!
+# Time to install Portspoof!
 
 install() {
-	if [ -d "/opt/portspoof" ]; then
-		echo "portspoof is already installed. Exiting."
+	if [ -f "/usr/local/bin/portspoof" ]; then
+		echo "Portspoof is already installed. Exiting."
 		exit 2
 	fi
 
 	git clone https://github.com/drk1wi/portspoof.git
-	#...
+	pushd portspoof
+	./configure
+	make && make install
+	popd
+	rm -rf portspoof
 
 	echo "
 	Portspoof installed!"
@@ -17,12 +21,17 @@ install() {
 }
 
 uninstall() {
-	if [ ! -d "/opt/portspoof" ]; then
+	if [ ! -f "/usr/local/bin/portspoof" ]; then
 		echo "Portspoof is not installed. Nothing to do."
 		exit 2
 	fi
 
-	#...
+	git clone https://github.com/drk1wi/portspoof.git
+	pushd portspoof
+	./configure
+	sudo make uninstall
+	popd
+	rm -rf portspoof
 
 	echo "
 	Portspoof uninstalled!"
