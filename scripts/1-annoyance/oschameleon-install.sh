@@ -8,7 +8,7 @@ install() {
 		exit 2
 	fi
 	
-	#pip install gevent # Prereq not in repo's requirements.txt file
+	pip install gevent # Prereq not in repo's requirements.txt file
 
 	cp -R ../../old-tools/oschameleon /opt/
 
