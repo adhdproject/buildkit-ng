@@ -16,10 +16,12 @@ install() {
 	fi
 	
 	runcmd "git clone https://github.com/BinaryDefense/artillery.git"
-	runcmd "pushd artillery"
-	runcmd "./setup.py -y"
-	runcmd "popd"
-	runcmd "rm -rf artillery"
+	if [ $errors -eq 0 ]; then
+		runcmd "pushd artillery"
+		runcmd "./setup.py -y"
+		runcmd "popd"
+		runcmd "rm -rf artillery"
+	fi
 
 	return $errors
 }
