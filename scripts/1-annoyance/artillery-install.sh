@@ -3,9 +3,9 @@
 # Time to install Artillery!
 
 runcmd() {
-	echo $1
+	echo "Running command: $1"
         $1 2>/dev/null;
-        errors=$(($errors+$?));
+        errors=$((errors+$?));
 }
 
 install() {
@@ -36,7 +36,7 @@ uninstall() {
 	return $errors
 }
 
-if [ `whoami` != 'root' ]; then
+if [ "$(whoami)" != 'root' ]; then
         echo "Artillery can only be installed or uninstalled with root or sudo."
 	exit 1
 fi
@@ -46,13 +46,13 @@ case "$1" in
 		echo "Installing Artillery..."
 		install
 		ret=$?
-		if [[ $ret > 0 && $ret < 255 ]]; then
+		if [[ $ret -gt 0 && $ret -lt 255 ]]; then
 			echo
 			echo "Something went wrong while installing Artillery."
-		elif [ $ret = 255 ]; then
+		elif [ $ret -eq 255 ]; then
 			echo
 			echo "Artillery is already installed. Exiting."
-		else
+		elif [ $ret -eq 0 ]; then
 			echo
 			echo "Artillery installed!"
 		fi;;
@@ -60,13 +60,13 @@ case "$1" in
 		echo "Uninstalling Artillery..."
 		uninstall
 		ret=$?
-		if [[ $ret > 0 && $ret < 255 ]]; then
+		if [[ $ret -gt 0 && $ret -lt 255 ]]; then
 			echo
 			echo "Something went wrong while uninstall Artillery."
-		elif [ $ret = 255 ]; then
+		elif [ $ret -eq 255 ]; then
 			echo
 			echo "Artillery is not installed. Nothing to do."
-		elif [ $ret = 0 ]; then
+		elif [ $ret -eq 0 ]; then
 			echo
 			echo "Artillery uninstalled!"
 		fi;;
