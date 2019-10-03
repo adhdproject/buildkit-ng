@@ -1,0 +1,7 @@
+V0.5
+Added functional gmail support
+Added global logging support for alerts/errors
+Added syslog support
+Added support for silencing alerts to stdout
+Added debug support
+Added checks for user existing
