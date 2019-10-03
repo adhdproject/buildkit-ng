@@ -1,0 +1,55 @@
+#!/usr/bin/python
+import socket
+import os
+import signal
+import Queue
+
+meta = {
+	'author':'Benjamin Donnelly',
+	'ported_by':'Benjamin Donnelly',
+	'version':'0.1.0',
+	'phantom_safe':True,
+	'info':"""Basic honeyport script.  Specify the host and port to listen on (default blank host = all possible IPs).  this script will block any non-whitelisted ip which connects to it.
+"""
+}
+
+
+variables = {"tripcode":["","no","Tripcode to trigger script"],"host":["","no","Leave blank for 0.0.0.0 'all'"],"port":["","yes","port to listen on"],"whitelist":["127.0.0.1,8.8.8.8","no","hosts to whitelist (cannot be blocked)"]}
+
+
+class commands:
+	def __init__(self):
+		return
+
+	@staticmethod
+	def run(variables, q):
+
+		HOST = variables['host'][0]
+		PORT = int(variables['port'][0])
+
+		tripcode = variables['tripcode'][0]
+		whitelist = variables['whitelist'][0].split(",")
+
+		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		s.bind((HOST,PORT))
+		s.listen(5)
+		print "Listening..."
+		
+		#ss = core.signal.sig()
+		#ss.option = 4	
+		#signal.signal(signal.SIGINT, ss.sigg)
+		while True:
+			con, addr = s.accept()
+			print "Connection from %s:%s" % (addr[0],addr[1])
+			
+			if len(tripcode) > 0:
+				q.put(str(tripcode))
+				
+	
+			if not addr[0] in whitelist:
+				os.system("iptables -A INPUT -s %s -j DROP" % (addr[0]))
+				
+			con.close()
+			
+			
+

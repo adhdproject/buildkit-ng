@@ -1,0 +1,9 @@
+###The format for this file is simple
+# It goes: <tripcode>,<script>
+# So for example, with tripcode: aaaa
+# and script talos/fightback
+# You would write: aaaa,talos/fightback
+# NOTE: script paths should be relative from the scripts folder
+###
+
+testinginprogress,talos/honeyport_basic_445

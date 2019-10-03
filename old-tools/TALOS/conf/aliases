@@ -1,0 +1,5 @@
+#To add another alias to the list of aliases, simply input append to this file 
+#in the form: alias, command
+#If your command is already included in one of the autocomplete tiers
+#Your alias will be added to that portion of the autocomplete
+cd, module

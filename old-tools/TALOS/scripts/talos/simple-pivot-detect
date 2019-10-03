@@ -1,0 +1,2 @@
+use local/detection/simple-pivot-detect
+run

@@ -1,0 +1,129 @@
+#!/usr/bin/env python
+import socket,asyncore
+import time
+import random
+import hashlib
+import os
+from core.logging import log_notification
+
+meta = {
+        'author':'Benjamin Donnelly',
+        'ported_by':'Benjamin Donnelly',
+        'version':'0.1.0',
+        'info':"""This is a half-routing binded pivot script.  It binds to a port, and passes data received on that port on to the destination specified.
+"""
+}
+
+instance = ''
+
+variables = {"lhost":['',"no","leave blank for automatic"],"lport":["1337","yes","port to listen on"],"rhost":["","yes","Host to forward to"],"rport":["","yes","port to forward to"]}
+
+class core():
+        def __init__(self, logfile, syslog=False, cap=False):
+                self.logfile = logfile
+                self.cap = cap
+
+        def logg(self, msg):
+
+                fi = open(self.logfile, "a")
+                fi.write(time.strftime("%H:%M:%S %m/%d/%Y") + "; " + msg + "\n")
+                fi.close()
+
+        def make_hash(self, data):
+                return hashlib.sha1(str(data)).hexdigest()
+
+        def capture(self, tag, data):
+		return
+
+class forwarder(asyncore.dispatcher):
+        def __init__(self, lhost, lport, rhost, rportbacklog=5):
+                asyncore.dispatcher.__init__(self)
+                self.remoteport=rport
+		self.rhost=rhost
+                self.port = lport
+                self.create_socket(socket.AF_INET,socket.SOCK_STREAM)
+                self.set_reuse_addr()
+                self.bind((lhost,lport))
+                self.listen(backlog)
+
+        def handle_accept(self):
+                conn, addr = self.accept()
+                tag = instance.make_hash(time.strftime("%H:%M:%S %m/%d/%Y") + str(addr) + str(self.port))
+                sender(receiver(conn, tag),self.rhost,self.remoteport, tag)
+
+class receiver(asyncore.dispatcher):
+        def __init__(self,conn, tag):
+                self.tag = tag
+                asyncore.dispatcher.__init__(self,conn)
+                self.from_remote_buffer=''
+                self.to_remote_buffer=''
+                self.sender=None
+
+        def handle_connect(self):
+                pass
+
+        def handle_read(self):
+                read = self.recv(4096)
+                self.from_remote_buffer += read
+                if not read == None:
+                        instance.capture(self.tag, read)
+
+        def writable(self):
+                return (len(self.to_remote_buffer) > 0)
+
+        def handle_write(self):
+                sent = self.send(self.to_remote_buffer)
+                self.to_remote_buffer = self.to_remote_buffer[sent:]
+
+        def handle_close(self):
+                self.close()
+                if self.sender:
+                        self.sender.close()
+
+class sender(asyncore.dispatcher):
+        def __init__(self, receiver, remoteaddr, remoteport, tag):
+                asyncore.dispatcher.__init__(self)
+                self.receiver=receiver
+                self.tag = tag
+                receiver.sender=self
+                self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.connect((remoteaddr, remoteport))
+
+        def handle_connect(self):
+                pass
+
+        def handle_read(self):
+                read = self.recv(4096)
+                self.receiver.to_remote_buffer += read
+                if not read == None:
+                        instance.capture(self.tag, str(read))
+
+        def writable(self):
+                return (len(self.receiver.from_remote_buffer) > 0)
+
+        def handle_write(self):
+                sent = self.send(self.receiver.from_remote_buffer)
+                self.receiver.from_remote_buffer = self.receiver.from_remote_buffer[sent:]
+
+        def handle_close(self):
+                self.close()
+                self.receiver.close()
+
+class commands:
+        def __init__(self):
+                return
+
+        @staticmethod
+        def run(variables):
+                global instance
+
+		lport = int(variables['lport'][0])
+		lhost = variables['lhost'][0]
+		rport = int(variables['rport'][0])
+		rhost = variables['rhost'][0]
+                #remote_ip = '127.0.0.1'
+                instance = core(variables['log_file'][0])
+
+                forwarder(lhost,lport,rhost,rport)
+                asyncore.loop()
+

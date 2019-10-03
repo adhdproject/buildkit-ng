@@ -1,0 +1,138 @@
+#!/usr/bin/env python
+
+import sys
+import os
+import subprocess
+import time
+
+from core.logging import log_notification
+
+meta = {
+	'author':'Benjamin Donnelly',
+	'ported_by':'Benjamin Donnelly',
+	'version':'0.1.0',
+	'info':"""Human py is a simple human detection algorithm made to run against service accounts.  Its job is to detect human precense on said service accounts."""
+}
+
+variables = {"log":["False","yes","Enable or disable notifications"],"stop":["False","yes","If set to True, will rewrite changes made to monitor account."],"username":["","yes","The username to monitor"],"baselogpath":["/var/log/human","yes","the folder in which the logs shoud be stored. KEEP SECURE"]}
+
+
+#Kind of important that you keep a good lock on the logfile.  It's gonna contain sensitive information for whatever user account you're targeting.
+signatures = ["command not found","No command","did you mean","No such file or directory","Not a directory"]
+
+#if len(sys.argv) < 2:
+#	print "Human identification on service accounts"
+#	print "Proper Usage"
+#	print sys.argv[0] + " <username_to_monitor> "
+#	print "or"
+#	print sys.argv[0] + " <username_to_stop_monitoring> stop "
+#	exit(1)
+
+if os.getuid() != 0:
+	print "Please only run as root"
+	print "I want good privilege seperation with these log files"
+	exit(0)
+
+#user = sys.argv[1]
+
+#baselogpath = "/var/log/human/"
+#logfile = "%s%s" % (baselogpath, user)
+logfile = ""
+user = ""
+baselogpath = ""
+
+def __build__():
+	if not os.path.exists(baselogpath): 
+		os.system("mkdir -p %s" % (baselogpath))
+		os.system("chmod 711 %s" % (baselogpath))
+
+def __exec__(com):
+	p = subprocess.Popen(com, stdout=subprocess.PIPE, shell=True)
+	out, err = p.communicate()
+	return out
+
+def gethome(user):
+	home =  __exec__("awk 'BEGIN { FS=\":\" } ; /%s/ {print $6}' /etc/passwd" % user)
+	if home[-1] == "\n":
+		home = home[:-1]
+	if home[-1] != "/":
+		home = home + "/"
+	return home
+
+def ismon(user):
+	home = gethome(user)
+	
+	read = __exec__("grep 'exec 2> >(tee -a' %s.bashrc" % (home))
+	if len(read) < 3:
+		return False
+	else:
+		return True
+
+def start_mon(user):
+	home = gethome(user)
+	__exec__("touch %s " % (logfile))
+	fi = open("%s.bashrc" % (home), "a")
+	fi.write("exec 2> >(tee -a %s)" % (logfile))
+	fi.close()
+	__exec__("chown root:%s %s" % (user, logfile))
+	__exec__("chmod 620 %s" % (logfile))
+
+def stop_mon(user):
+	home = gethome(user)
+	
+	__exec__("sed -i '/exec 2\>/c\ ' %s.bashrc" % (home))
+
+def monitor_user(user, log):
+	while True:
+		out = __exec__("cat %s" % (logfile))
+		for signature in signatures:
+			if signature in out:
+				print "Alert <%s> is acting like a human" % (user)
+				if log:
+					log_notification("Alert <%s> is acting like a human" % (user), "human_py") 
+				
+				#Tripwire here
+
+				__exec__("> %s" % (logfile))
+		time.sleep(10)
+
+def main(STOP=False, log=False):
+	__build__()
+	if not ismon(user):
+		start_mon(user)
+	if STOP:
+		print "Stopping user monitoring"
+		stop_mon(user)
+		return
+
+	print "Starting monitor service"
+	monitor_user(user, log)
+
+
+class commands:
+	def __init__(self):
+		return
+	
+	@staticmethod
+	def run(variables, pt):
+		if "true" in variables["stop"][0].lower():
+			STOP = True
+		else:
+			STOP = False
+			
+		if "true" in variables['log'][0].lower():
+			LOG = True
+		else:
+			print "Notifications disabled, alerts will be printed to stdout only"
+			LOG = False
+
+		global user
+		global baselogpath
+		global logfile
+		user = variables['username'][0]
+		baselogpath = variables['baselogpath'][0]
+		if baselogpath[len(baselogpath)-1] != "/":
+			baselogpath += "/"
+		
+		logfile = "%s%s" % (baselogpath, user)
+		main(STOP, LOG)

@@ -1,0 +1,54 @@
+#!/usr/bin/python
+import socket
+import os
+import threading
+from core.logging import log_notification
+
+meta = {
+	'author':'Benjamin Donnelly',
+	'ported_by':'Benjamin Donnelly',
+	'version':'0.1.0',
+	'info':"""
+This is a threaded honeyport tool which can run on multiple ports at once.  To specifiy more than one port, split the up with a comma.  This tool will run in the background, blocking any non-whitelisted host which connects to it.
+"""
+}
+
+variables = {"host":["","no","Sets the host to listen on.  Leave blank for all"],"port":["1337,1338","yes","sets the ports to listen on, seperate by comma"],"whitelist":["127.0.0.1,8.8.8.8","no","whitelisted hosts, seperated with comma"]}
+threads = []
+
+def block(ip, whitelist):
+	if ip not in whitelist:
+		os.system("iptables -A INPUT -s %s -J DROP" % (ip))
+	return
+
+def listener(HOST, PORT, whitelist):
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.bind((HOST,PORT))
+	s.listen(5)
+	while True:
+		con, addr = s.accept()
+		log_notification("connection from %s:%s -> %s" % (addr[0],addr[1], PORT), tool="honeyports/basic_multiple")
+		block(addr[0])
+		con.close()
+	
+
+
+class commands:
+        def __init__(self):
+                return
+
+        @staticmethod
+        def run(variables, pt):
+		global threads
+
+                HOST = variables['host']
+                whitelist = variables['whitelist'].split(",")
+
+		for PORT in variables['port'].split(","):
+			t = threading.Thread(target=listener, args=(HOST,int(PORT),whitelist,))
+			threads.append(t)
+			t.daemon = True
+			t.start()	
+		print "Running Jobs in the background."
+
+		

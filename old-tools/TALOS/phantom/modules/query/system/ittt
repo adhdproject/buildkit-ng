@@ -1,0 +1,76 @@
+#!/usr/bin/python
+import socket
+import os
+import signal
+import Queue
+import subprocess
+import time
+
+meta = {
+	'author':'Benjamin Donnelly',
+	'ported_by':'Benjamin Donnelly',
+	'version':'0.1.0',
+	'phantom_safe':True,
+	'info':"""Query generic shell command 'if' on system.  If it matches expected output, return second command output as inst_var"""
+}
+
+
+variables = {"if":["","yes","command to attempt"],"operation":["equals","yes","Operation to compare: eq,lt,gt,in,ne"],"compare":["","yes","output to match"],"varname":["","yes","Var to write to.  Access with 'echo @your_name_here'"],"then":["","yes","command to write out"]}
+
+
+class commands:
+	def __init__(self):
+		return
+
+	@staticmethod
+	def run(variables, q):
+
+		varname = variables['varname'][0]
+		command = variables['then'][0]
+		ifi = variables['if'][0]
+		compare = variables['compare'][0]
+		operation = variables['operation'][0]
+	
+	#	out = subprocess.check_output(ifi, shell=True)
+	
+		c = subprocess.Popen(ifi, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		out, err = c.communicate()
+		print "out is: ", out	
+		print "err is: ", err
+		out = out + err
+		doret = False
+
+		operation=operation.strip().lower()
+
+		out = out.strip().lower()
+
+		if operation == "eq":
+			doret = (out == compare)
+		elif operation == "ne":
+			doret = (out != compare)
+		elif operation == "lt":
+			try:
+				doret = (int(out.strip()) < int(compare))
+			except:
+				pass
+		elif operation == "gt":
+			try:
+				doret = (int(out.strip()) > int(compare))
+			except:
+				pass
+		elif operation == "in":
+			print "out is now:", out
+			print "compare is:", compare
+			doret = (compare in out)
+
+
+		print "operation was: ", operation
+		print "result was: ", doret
+		if doret:
+			print "Made it to return"
+			out = subprocess.check_output(command, shell=True)
+			returnthis = "set %s %s" % (varname, out)
+			time.sleep(2)
+			q.put(returnthis)
+		
+

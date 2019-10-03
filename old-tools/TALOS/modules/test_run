@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+
+import sys
+import os
+from core.logging import log_notification
+
+"""
+This is a test module.  Whatever value you supply to the 'folder' variable.  Ths module will execute 'touch <folder>/test'
+"""
+
+variables = {"folder":["","yes","Sets the folder the script will run in"]}
+
+
+class commands:
+	def __init__(self):
+		return
+
+	@staticmethod
+	def run(variables, pt):
+		log_notification("1337")
+		os.system("touch %s/test" % (variables['folder'][0]))

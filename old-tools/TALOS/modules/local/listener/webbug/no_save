@@ -1,0 +1,38 @@
+#!usr/bin/env python
+import time
+import socket
+from core.logging import log_notification
+
+
+meta = {
+        'author':'Benjamin Donnelly',
+        'ported_by':'Benjamin Donnelly',
+        'version':'0.1.0',
+	'info':"""
+This module listens for incoming connections from wordbugs and displays them without saving.  Needs to be patched to send proper css/img response
+"""
+}
+
+variables = {"host":["","no","leave blank for auto assignment"],"port":["1337","yes","port to listen on"]}
+
+class commands:
+	def __init__(self):
+		return
+
+	@staticmethod
+	def run(variables, pt):
+		host = variables['host']
+		port = int(variables['port'])
+
+		s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+		s.bind((host,port))
+		s.listen(5)
+		print "Listening"
+		while True:
+			con, addr = s.accept()
+			log_notification("New connection from %s:%s " % (addr[0], addr[1]), tool="webbug/no_save")
+			print "Received new connection from> %s:%s " % (addr[0], addr[1])	
+			con.close()
+
+				
+		
