@@ -3,7 +3,7 @@
 # Time to install Artillery!
 
 runcmd() {
-	echo "Running command: $1"
+	echo "	Running command: $1"
         $1 2>/dev/null;
         errors=$((errors+$?));
 }
@@ -14,6 +14,8 @@ install() {
 	if [ -d "/var/artillery" ]; then
 		return 255
 	fi
+
+	echo "[*] Installing Artillery..."
 	
 	runcmd "git clone https://github.com/BinaryDefense/artillery.git"
 	if [ $errors -eq 0 ]; then
@@ -33,44 +35,44 @@ uninstall() {
 		return 255
 	fi
 
+	echo "[*] Uninstalling Artillery"
+
 	runcmd "/var/artillery/setup.py -y"
 
 	return $errors
 }
 
 if [ "$(whoami)" != 'root' ]; then
-        echo "Artillery can only be installed or uninstalled with root or sudo."
+        echo "[-] Artillery can only be installed or uninstalled with root or sudo."
 	exit 1
 fi
 
 case "$1" in
 	-i|--install)
-		echo "Installing Artillery..."
 		install
 		ret=$?
 		if [[ $ret -gt 0 && $ret -lt 255 ]]; then
 			echo
-			echo "Something went wrong while installing Artillery."
+			echo "[-] Something went wrong while installing Artillery."
 		elif [ $ret -eq 255 ]; then
 			echo
-			echo "Artillery is already installed. Exiting."
+			echo "[!] Artillery is already installed. Exiting."
 		elif [ $ret -eq 0 ]; then
 			echo
-			echo "Artillery installed!"
+			echo "[+] Artillery installed!"
 		fi;;
 	-u|--uninstall)
-		echo "Uninstalling Artillery..."
 		uninstall
 		ret=$?
 		if [[ $ret -gt 0 && $ret -lt 255 ]]; then
 			echo
-			echo "Something went wrong while uninstall Artillery."
+			echo "[-] Something went wrong while uninstall Artillery."
 		elif [ $ret -eq 255 ]; then
 			echo
-			echo "Artillery is not installed. Nothing to do."
+			echo "[!] Artillery is not installed. Nothing to do."
 		elif [ $ret -eq 0 ]; then
 			echo
-			echo "Artillery uninstalled!"
+			echo "[+] Artillery uninstalled!"
 		fi;;
 	*)
 		echo "Usage:
