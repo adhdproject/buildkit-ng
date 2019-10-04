@@ -1,0 +1,84 @@
+#!/usr/bin/env python
+
+meta = {
+	'author':'Benjamin Donnelly',
+	'ported_by':'Benjamin Donnelly',
+	'version':'0.1.0',
+	'info':"""Simple Pivot detect is an incredibly simple script which detects obvious network pivoting activity by searching through process chains for two bordering signs of network activity.
+Aka, does a network active process have any children which are also active on the network?"""
+}
+
+variables = {'log':['no','yes','Log a notification?'],'continuous':['no','yes','Run continuously? Or only once?'],'wait':['60','yes','If running continuously, wait between runs in seconds']}
+
+import os
+import subprocess
+import time
+
+from core.logging import log_notification
+
+def main(log=False):
+	a = subprocess.Popen("netstat -antp | awk '/ESTABLISHED/ {print $7}'", shell=True, stdout=subprocess.PIPE)
+	out, err = a.communicate()
+
+	pids = []
+
+	for entry in out.split("\n"):
+		if len(entry) > 1:
+			print entry.split("/")[0]
+			pids.append(entry.split("/")[0])
+
+
+	if len(pids) > 0:	
+		for pid in pids:
+			if len(pid) > 0 and pid !="0":
+				ppid = 11
+				while int(ppid) > 10:
+					print pid
+					a = subprocess.Popen("ps -p %s -o ppid=" % (pid), shell=True, stdout=subprocess.PIPE)
+					out, err = a.communicate()
+					ppid = out.strip()
+			
+					a = subprocess.Popen("netstat -antp | awk '{split($7,a,\"/\"); if(a[1] == %s) {print $6}}'" % (ppid), shell=True, stdout=subprocess.PIPE)
+					out, err = a.communicate()
+					if "ESTABLISHED" in out:
+						a = subprocess.Popen("ps -p %s -o comm=" % (ppid), shell=True, stdout=subprocess.PIPE)
+						output, err = a.communicate()
+						print "Alert: %s :: %s" % (ppid, output)
+						if log:
+							log_notification("Alert: %s :: %s !! Possible Pivot" % (ppid, output), "simple-pivot-detect")
+						ppid = 0
+					else:
+						pid = ppid
+
+class commands:
+	def __init__(self):
+		return
+
+	@staticmethod
+	def run(variables, pt):
+	
+		sleepval = 60
+
+		try:
+			sleepval = int(variables['wait'][0])
+		except:
+			print "Wait time improperly set, default is 60 seconds"
+
+		if variables['continuous'][0].lower().strip() == "yes":
+			while True:
+
+				log = False
+		                if variables['log'][0].lower().strip() == 'yes':
+                		        log = True
+
+                		main(log)
+
+				time.sleep(sleepval)
+		else:
+
+			log = False
+			if variables['log'][0].lower().strip() == 'yes':
+				log = True
+
+			main(log)
+

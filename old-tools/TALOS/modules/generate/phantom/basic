@@ -1,0 +1,44 @@
+#!/usr/bin/env python
+
+import os
+
+meta = {       
+	'author':'Benjamin Donnelly',
+        'ported_by':'Benjamin Donnelly',
+        'version':'0.1.0',
+        "info":"""Generates phantom scripts for deployment"""
+}
+
+variables = {"host":["","yes","The address to call back to"],"port":["1226","yes","The port to call back to"],"output_file":["tmp/phantom.py","yes","File to output to"]}
+
+
+src = "phantom/phantom.src"
+
+
+def update_script(host, port):
+	fi = open(src, 'r')
+	data = fi.read()
+	fi.close()
+
+	data = data.replace("HOST_REPLACE_ME",'\"%s\"' % host)
+	data = data.replace("PORT_REPLACE_ME",'%s' % port)
+	return data
+
+def write_script(output_file, data):
+	fi = open(output_file, "w")
+	fi.write(data)
+	fi.close()
+
+class commands:
+	def __init__(self):
+		return
+
+	@staticmethod
+	def run(variables, pt):
+		port = variables['port'][0]
+		host = variables['host'][0]
+		output_file = variables['output_file'][0]		
+
+		write_script(output_file, update_script(host, port))
+
+		return "File written out successfully.."

@@ -1,0 +1,109 @@
+#!/usr/bin/env python
+from core.database import essential
+from core.logging import log_notification
+import socket
+import os
+import datetime
+
+
+meta = {
+        'author':'Benjamin Donnelly',
+        'ported_by':'Benjamin Donnelly',
+        'version':'0.1.0',
+	'info':"""Invisiports is a cool little take on honeyports.  Rather than obviously blacklisting your attacker following a connection to a honeyport, invisiports keeps special catch ports open to his view.  These ports don't actually exist.  They're just there for show.  To keep the attacker busy.  """
+}
+
+variables = {
+	"whitelist":
+		[
+			"'127.0.0.1','localhost'",
+			"yes",
+			"Hosts to avoid messing with"
+		],
+	"fake_ports":
+		[
+			"'21','80','445'",
+			"yes",
+			"The port set to show to blacklisted hosts"
+		],
+	"listen_port":
+		[
+			"443",
+			"yes",
+			"port to listen on for malicious traffic"
+		],
+	"host":
+		[
+			"",
+			"no",
+			"host to bind to.  Blank for default"
+		]
+	}
+
+#hosts to avoid blacklisting
+#whitelist = ['127.0.0.1','localhost']
+
+#ports to show as up to blacklisted clients
+#Think about what the attacker will think if he sees different profiles before and after a scan
+#ports = ['21','80','445']
+
+#IP to bind to.  Leave as empty string to bind to all available IPs
+#ADDR=''
+
+#Port to bind to.  This will be the listening port.  A scan here will trigger the defenses
+#PORT = 443
+
+#Name of blacklist file
+#filename = "blacklist"
+
+def add_blacklist(ip):
+	e = essential()
+	e.db_exec(['''CREATE TABLE IF NOT EXISTS invisiports_blacklist (ip text, date text)''',"INSERT INTO invisiports_blacklist VALUES ('%s','%s')" % (ip,datetime.datetime.now())])
+
+def check_blacklist(ip):
+	e = essential()
+	rows = e.db_exec(['''CREATE TABLE IF NOT EXISTS invisiports_blacklist (ip text, date text)''','''SELECT * from invisiports_blacklist'''])
+	if rows is not None:
+		return ip in rows
+	else:
+		return False
+
+def blacklist(ip, ports, whitelist, PORT):
+	if ip in whitelist or check_blacklist(ip):
+		return False
+	else:
+		query = "iptables -A INPUT -s %s -p tcp ! --destination-port %s -j DROP" % (ip, PORT)
+		os.system(query)
+		for port in ports:
+			query = "iptables -t nat -A PREROUTING -s %s -p tcp --dport %s -j REDIRECT --to-port %s" % (ip,port,PORT)
+			os.system(query)
+		add_blacklist(ip)
+		log_notification("host has been blacklisted: %s" % (ip), tool="invisiports")
+	return True
+
+
+class commands:
+	def __init__(self):
+		return
+	
+	@staticmethod
+	def run(variables, pt):
+		whitelist = variables['whitelist'][0].split(",")
+		ADDR = variables['host'][0]
+		PORT = int(variables['listen_port'][0])
+		ports = variables['fake_ports'][0].split(",")
+		
+		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		s.bind((ADDR,PORT))
+		s.listen(5)
+
+		while True:
+			con, adr = s.accept()
+			try:
+				data = con.recv(2048)
+				con.send("Protocol Error")
+				con.close()
+			except:
+				print "Socket error"
+			blacklist(adr[0], ports, whitelist, PORT)
+

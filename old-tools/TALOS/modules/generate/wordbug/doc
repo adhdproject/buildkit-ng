@@ -1,0 +1,60 @@
+#!/usr/bin/env python
+import os
+
+meta = {
+	'author':'Benjamin Donnelly',
+	'ported_by':'Benjamin Donnelly',
+	'version':'0.1.0',
+	"info":"""Simple webbug generator.  Generates a .doc word bug using img/css tags.  Requires a listening receiver of some type."""
+}
+
+variables = {"listener":["","yes","format host:port/<uri> the address to call back to"],"type":["img","yes","the type, 'img/css'"],"template":["","no","path to a template file"],"output":["output.doc","yes","file to output to."]}
+
+def write_to(filename, data):
+	fi = open(filename, "a")
+	fi.write(data)
+	fi.close()
+
+def img(filename, listener, template):
+	if template:
+		fi = open(template, "r")
+		data = fi.read()
+		fi.close()
+		write_to(filename, data) 
+	string_x = "<img src='%s' width='1px' height='1px' />" % (listener)
+	write_to(filename, string_x)
+
+def css(filename, listener, template):
+        if template:
+                fi = open(template, "r")
+                data = fi.read()
+                fi.close()
+                write_to(filename, data)
+        string_x = "<link type='text/css' rel='stylesheet' href='%s' />" % (listener)
+        write_to(filename, string_x)
+
+class commands:
+	def __init__(self):
+		return
+
+	@staticmethod
+	def run(variables, pt):
+		type_x = variables['type']
+		listener = variables['listener']
+		template = variables['template']
+		output = variables['output']
+
+		if len(template) < 1:
+			template = None
+
+		if os.path.isfile(output):
+			value = raw_input("File exists, append or quit [a/q]: ")
+			if value.lower() == "q":
+				return "Quitting..."
+
+		if type_x == "img":
+			img(output, listener, template)
+		elif type_x == "css":
+			css(output,listener, template)
+
+		return "wordbug written to %s " % (output)

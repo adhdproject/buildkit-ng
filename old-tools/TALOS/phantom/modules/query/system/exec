@@ -1,0 +1,47 @@
+#!/usr/bin/python
+import socket
+import os
+import signal
+import Queue
+import subprocess
+
+meta = {
+	'author':'Benjamin Donnelly',
+	'ported_by':'Benjamin Donnelly',
+	'version':'0.1.0',
+	'phantom_safe':True,
+	'info':"""Query generic shell command on system.  Optionally, return as inst_var"""
+}
+
+
+variables = {"command":["","yes","command to execute"],"varname":["","no","Var to write to.  Access with 'echo @your_name_here'"]}
+
+
+class commands:
+	def __init__(self):
+		return
+
+	@staticmethod
+	def run(variables, q):
+
+		varname = variables['varname'][0]
+		command = variables['command'][0]
+		#command = command.split()
+		#temp = ['/usr/bin/env',"bash"]
+		#for elem in command:
+		#	temp.append(elem)
+		#command = temp
+		command = "ls /tmp"
+		out = subprocess.check_output("%s" % command)
+		#out = subprocess.Popen(command, stdout=subprocess.PIPE)
+		#out = out.communicate()[0]
+		err = ""
+		#out, err = p.communicate()
+		fi=open("/tmp/outlog.txt","a")
+		fi.write("out: %s err: %s" % (out,err))
+		fi.close()
+		if len(varname) > 0:
+			returnthis = "set %s %s" % (varname, out)
+			q.put(returnthis)
+		
+

@@ -1,0 +1,4 @@
+twisted
+netaddr
+paramiko
+service-identity

