@@ -61,15 +61,23 @@ if [ ${#package_manager_input} != 0 ]; then
 	package_manager=$package_manager_input
 fi
 
-echo "Updating Sources"
+echo "========== Updating sources =========="
 $package_manager update > /dev/null 2>&1
+echo "========== Sources updated =========="
 
-echo "Installing prerequisite packages for ADHD"
+echo "========== Installing prerequisite packages for ADHD =========="
 while read prereq; do
 	if [[ $prereq != *"#"* ]]; then
 		$package_manager -y install $prereq
 	fi
 done < prerequisites.txt
-
+echo "========== Finished installing prerequisites =========="
+echo
 
 # Link to auxilliary scripts here!
+echo "========== Installing annoyance tools =========="
+for f in 1-annoyance/*.sh; do
+	echo "$f"
+done
+echo "========== Finished installing annoyance tools =========="
+echo
