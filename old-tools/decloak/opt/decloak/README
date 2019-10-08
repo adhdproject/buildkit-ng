@@ -1,0 +1,9 @@
+To get Decloak.swf use the command
+haxe -main Decloak -swf Decloak.swf -swf-version 10
+
+To get HelloWorld.class use the command
+javac HelloWorld.java
+
+Don't forget to set the DNS in /etc/resolv.conf to 127.0.0.1
+Don't forget to make spy.decloak.net resolve to 127.0.0.1
+echo 127.0.0.1 spy.decloak.net >> /etc/hosts
