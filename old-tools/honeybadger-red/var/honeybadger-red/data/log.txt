@@ -1,0 +1,147 @@
+[07/31/2018 16:36:27] [*] ==================================================
+[07/31/2018 16:36:27] [*] Connection from Demo_Page @ 127.0.0.1:44766 via HTML
+[07/31/2018 16:36:27] [*] Query String: target=Demo_Page&agent=HTML
+[07/31/2018 16:36:27] [*] User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0
+[07/31/2018 16:36:27] [*] Comment: 
+[07/31/2018 16:36:27] [*] Attempting to geolocate by IP.
+[07/31/2018 16:36:30] [*] API URL used: http://uniapple.net/geoip/?ip=127.0.0.1
+[07/31/2018 16:36:30] [*] JSON object retrived:
+Sorry, Can not found the location with IP number you input.
+[07/31/2018 16:36:30] [!] Invalid JSON object. Giving up on host.
+[07/31/2018 16:36:37] [*] ==================================================
+[07/31/2018 16:36:37] [*] Connection from Demo_Page @ 127.0.0.1:44772 via JavaScript
+[07/31/2018 16:36:37] [*] Query String: target=Demo_Page&agent=JavaScript&lat=37.09024&lng=-95.712891&acc=1488703
+[07/31/2018 16:36:37] [*] User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0
+[07/31/2018 16:36:37] [*] Comment: 
+[07/31/2018 16:36:37] [*] Target location identified as Lat: 37.09024, Lng: -95.712891
+[07/31/2018 16:36:46] [*] ==================================================
+[07/31/2018 16:36:46] [*] Connection from Demo_Page @ 127.0.0.1:44774 via Applet
+[07/31/2018 16:36:46] [*] Query String: POST
+[07/31/2018 16:36:46] [*] User-Agent: Java(tm) 2 SDK, Standard Edition v1.8.0_111 Java/1.8.0_111
+[07/31/2018 16:36:46] [*] Comment: 
+[07/31/2018 16:36:46] [*] Input filtered: ICAgICAgICAgIENlbGwgMDEgLSBBZGRyZXNzOiBFQzo4QzpBMjoyQzo2MzpEOCAgICAgICAgICAgICAgICAgICAgUXVhbGl0eT02MS83MCAgU2lnbmFsIGxldmVsPS00OSBkQm0gICAgICAgICAgICAgICAgICAgICAgRVNTSUQ6IlNFQzUwNCIgICAgICAgICAgQ2VsbCAwMiAtIEFkZHJlc3M6IEEwOjQwOkEwOjUyOjNCOkYxICAgICAgICAgICAgICAgICAgICBRdWFsaXR5PTY1LzcwICBTaWduYWwgbGV2ZWw9LTQ1IGRCbSAgICAgICAgICAgICAgICAgICAgICBFU1NJRDoiTkVUR0VBUjE5Ig== => ICAgICAgICAgIENlbGwgMDEgLSBBZGRyZXNzOiBFQzo4QzpBMjoyQzo2MzpEOCAgICAgICAgICAgICAgICAgICAgUXVhbGl0eT02MS83MCAgU2lnbmFsIGxldmVsPS00OSBkQm0gICAgICAgICAgICAgICAgICAgICAgRVNTSUQ6IlNFQzUwNCIgICAgICAgICAgQ2VsbCAwMiAtIEFkZHJlc3M6IEEwOjQwOkEwOjUyOjNCOkYxICAgICAgICAgICAgICAgICAgICBRdWFsaXR5PTY1LzcwICBTaWduYWwgbGV2ZWw9LTQ1IGRCbSAgICAgICAgICAgICAgICAgICAgICBFU1NJRDoiTkVUR0VBUjE5Ig
+[07/31/2018 16:36:46] [*] Data received:
+ICAgICAgICAgIENlbGwgMDEgLSBBZGRyZXNzOiBFQzo4QzpBMjoyQzo2MzpEOCAgICAgICAgICAgICAgICAgICAgUXVhbGl0eT02MS83MCAgU2lnbmFsIGxldmVsPS00OSBkQm0gICAgICAgICAgICAgICAgICAgICAgRVNTSUQ6IlNFQzUwNCIgICAgICAgICAgQ2VsbCAwMiAtIEFkZHJlc3M6IEEwOjQwOkEwOjUyOjNCOkYxICAgICAgICAgICAgICAgICAgICBRdWFsaXR5PTY1LzcwICBTaWduYWwgbGV2ZWw9LTQ1IGRCbSAgICAgICAgICAgICAgICAgICAgICBFU1NJRDoiTkVUR0VBUjE5Ig
+[07/31/2018 16:36:46] [*] Decoded Data:
+          Cell 01 - Address: EC:8C:A2:2C:63:D8                    Quality=61/70  Signal level=-49 dBm                      ESSID:"SEC504"          Cell 02 - Address: A0:40:A0:52:3B:F1                    Quality=65/70  Signal level=-45 dBm                      ESSID:"NETGEAR19"
+[07/31/2018 16:36:46] {"wifiAccessPoints":[{"macAddress":"EC:8C:A2:2C:63:D8","signalStrength":"-49"},{"macAddress":"A0:40:A0:52:3B:F1","signalStrength":"-45"}]}
+[07/31/2018 16:36:46] 0
+[07/31/2018 16:36:46] 1
+[07/31/2018 16:36:48] RESULT: {
+ "location": {
+  "lat": 44.3326432,
+  "lng": -103.6912935
+ },
+ "accuracy": 20.0
+}
+
+[07/31/2018 16:36:48] [*] Target location identified as Lat: 44.3326432, Lng: -103.6912935
+[07/31/2018 16:38:32] [*] ==================================================
+[07/31/2018 16:38:32] [*] Connection from Demo_Page @ 127.0.0.1:44840 via HTML
+[07/31/2018 16:38:32] [*] Query String: target=Demo_Page&agent=HTML
+[07/31/2018 16:38:32] [*] User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0
+[07/31/2018 16:38:32] [*] Comment: 
+[07/31/2018 16:38:32] [*] Attempting to geolocate by IP.
+[07/31/2018 16:38:34] [*] API URL used: http://uniapple.net/geoip/?ip=127.0.0.1
+[07/31/2018 16:38:34] [*] JSON object retrived:
+Sorry, Can not found the location with IP number you input.
+[07/31/2018 16:38:34] [!] Invalid JSON object. Giving up on host.
+[07/31/2018 16:38:45] [*] ==================================================
+[07/31/2018 16:38:45] [*] Connection from Demo_Page @ 127.0.0.1:44850 via Applet
+[07/31/2018 16:38:45] [*] Query String: POST
+[07/31/2018 16:38:45] [*] User-Agent: Java(tm) 2 SDK, Standard Edition v1.8.0_111 Java/1.8.0_111
+[07/31/2018 16:38:45] [*] Comment: 
+[07/31/2018 16:38:45] [*] Input filtered: ICAgICAgICAgIENlbGwgMDEgLSBBZGRyZXNzOiBFQzo4QzpBMjoyQzo2MzpEOCAgICAgICAgICAgICAgICAgICAgUXVhbGl0eT02MS83MCAgU2lnbmFsIGxldmVsPS00OSBkQm0gICAgICAgICAgICAgICAgICAgICAgRVNTSUQ6IlNFQzUwNCIgICAgICAgICAgQ2VsbCAwMiAtIEFkZHJlc3M6IEEwOjQwOkEwOjUyOjNCOkYxICAgICAgICAgICAgICAgICAgICBRdWFsaXR5PTY3LzcwICBTaWduYWwgbGV2ZWw9LTQzIGRCbSAgICAgICAgICAgICAgICAgICAgICBFU1NJRDoiTkVUR0VBUjE5Ig== => ICAgICAgICAgIENlbGwgMDEgLSBBZGRyZXNzOiBFQzo4QzpBMjoyQzo2MzpEOCAgICAgICAgICAgICAgICAgICAgUXVhbGl0eT02MS83MCAgU2lnbmFsIGxldmVsPS00OSBkQm0gICAgICAgICAgICAgICAgICAgICAgRVNTSUQ6IlNFQzUwNCIgICAgICAgICAgQ2VsbCAwMiAtIEFkZHJlc3M6IEEwOjQwOkEwOjUyOjNCOkYxICAgICAgICAgICAgICAgICAgICBRdWFsaXR5PTY3LzcwICBTaWduYWwgbGV2ZWw9LTQzIGRCbSAgICAgICAgICAgICAgICAgICAgICBFU1NJRDoiTkVUR0VBUjE5Ig
+[07/31/2018 16:38:45] [*] Data received:
+ICAgICAgICAgIENlbGwgMDEgLSBBZGRyZXNzOiBFQzo4QzpBMjoyQzo2MzpEOCAgICAgICAgICAgICAgICAgICAgUXVhbGl0eT02MS83MCAgU2lnbmFsIGxldmVsPS00OSBkQm0gICAgICAgICAgICAgICAgICAgICAgRVNTSUQ6IlNFQzUwNCIgICAgICAgICAgQ2VsbCAwMiAtIEFkZHJlc3M6IEEwOjQwOkEwOjUyOjNCOkYxICAgICAgICAgICAgICAgICAgICBRdWFsaXR5PTY3LzcwICBTaWduYWwgbGV2ZWw9LTQzIGRCbSAgICAgICAgICAgICAgICAgICAgICBFU1NJRDoiTkVUR0VBUjE5Ig
+[07/31/2018 16:38:45] [*] Decoded Data:
+          Cell 01 - Address: EC:8C:A2:2C:63:D8                    Quality=61/70  Signal level=-49 dBm                      ESSID:"SEC504"          Cell 02 - Address: A0:40:A0:52:3B:F1                    Quality=67/70  Signal level=-43 dBm                      ESSID:"NETGEAR19"
+[07/31/2018 16:38:45] {"wifiAccessPoints":[{"macAddress":"EC:8C:A2:2C:63:D8","signalStrength":"-49"},{"macAddress":"A0:40:A0:52:3B:F1","signalStrength":"-43"}]}
+[07/31/2018 16:38:45] 0
+[07/31/2018 16:38:45] 1
+[07/31/2018 16:38:47] RESULT: {
+ "location": {
+  "lat": 44.332643499999996,
+  "lng": -103.69129219999999
+ },
+ "accuracy": 20.0
+}
+
+[07/31/2018 16:38:47] [*] Target location identified as Lat: 44.3326435, Lng: -103.6912922
+[07/31/2018 16:39:56] [*] ==================================================
+[07/31/2018 16:39:56] [*] Connection from Demo_Page @ 192.168.138.1:33730 via HTML
+[07/31/2018 16:39:56] [*] Query String: target=Demo_Page&agent=HTML
+[07/31/2018 16:39:56] [*] User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36
+[07/31/2018 16:39:56] [*] Comment: 
+[07/31/2018 16:39:56] [*] Attempting to geolocate by IP.
+[07/31/2018 16:40:00] [*] API URL used: http://uniapple.net/geoip/?ip=192.168.138.1
+[07/31/2018 16:40:00] [*] JSON object retrived:
+Sorry, Can not found the location with IP number you input.
+[07/31/2018 16:40:00] [!] Invalid JSON object. Giving up on host.
+[07/31/2018 16:40:02] [*] ==================================================
+[07/31/2018 16:40:02] [*] Connection from Demo_Page @ 192.168.138.1:33733 via HTML
+[07/31/2018 16:40:02] [*] Query String: target=Demo_Page&agent=HTML
+[07/31/2018 16:40:02] [*] User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36
+[07/31/2018 16:40:02] [*] Comment: 
+[07/31/2018 16:40:02] [*] Attempting to geolocate by IP.
+[07/31/2018 16:40:03] [*] API URL used: http://uniapple.net/geoip/?ip=192.168.138.1
+[07/31/2018 16:40:03] [*] JSON object retrived:
+Sorry, Can not found the location with IP number you input.
+[07/31/2018 16:40:03] [!] Invalid JSON object. Giving up on host.
+[07/31/2018 16:42:14] [*] ==================================================
+[07/31/2018 16:42:14] [*] Connection from default @ 192.168.138.139:1893 via powershell
+[07/31/2018 16:42:14] [*] Query String: POST
+[07/31/2018 16:42:14] [*] User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.14393.576
+[07/31/2018 16:42:14] [*] Comment: NULL
+[07/31/2018 16:42:14] [*] Data received:
+
+[07/31/2018 16:42:14] [*] Decoded Data:
+
+[07/31/2018 16:42:14] [*] No data received from the agent.
+[07/31/2018 16:42:14] [*] Attempting to geolocate by IP.
+[07/31/2018 16:42:17] [*] API URL used: http://uniapple.net/geoip/?ip=192.168.138.139
+[07/31/2018 16:42:17] [*] JSON object retrived:
+Sorry, Can not found the location with IP number you input.
+[07/31/2018 16:42:17] [!] Invalid JSON object. Giving up on host.
+[07/31/2018 16:44:10] [*] ==================================================
+[07/31/2018 16:44:10] [*] Connection from Demo_Page @ 127.0.0.1:44938 via Applet
+[07/31/2018 16:44:10] [*] Query String: POST
+[07/31/2018 16:44:10] [*] User-Agent: Java(tm) 2 SDK, Standard Edition v1.8.0_111 Java/1.8.0_111
+[07/31/2018 16:44:10] [*] Comment: 
+[07/31/2018 16:44:10] [*] Input filtered: ICAgICAgICAgIENlbGwgMDEgLSBBZGRyZXNzOiBFQzo4QzpBMjoyQzo2MzpEOCAgICAgICAgICAgICAgICAgICAgUXVhbGl0eT01OS83MCAgU2lnbmFsIGxldmVsPS01MSBkQm0gICAgICAgICAgICAgICAgICAgICAgRVNTSUQ6IlNFQzUwNCIgICAgICAgICAgQ2VsbCAwMiAtIEFkZHJlc3M6IEEwOjQwOkEwOjUyOjNCOkYxICAgICAgICAgICAgICAgICAgICBRdWFsaXR5PTY3LzcwICBTaWduYWwgbGV2ZWw9LTQzIGRCbSAgICAgICAgICAgICAgICAgICAgICBFU1NJRDoiTkVUR0VBUjE5Ig== => ICAgICAgICAgIENlbGwgMDEgLSBBZGRyZXNzOiBFQzo4QzpBMjoyQzo2MzpEOCAgICAgICAgICAgICAgICAgICAgUXVhbGl0eT01OS83MCAgU2lnbmFsIGxldmVsPS01MSBkQm0gICAgICAgICAgICAgICAgICAgICAgRVNTSUQ6IlNFQzUwNCIgICAgICAgICAgQ2VsbCAwMiAtIEFkZHJlc3M6IEEwOjQwOkEwOjUyOjNCOkYxICAgICAgICAgICAgICAgICAgICBRdWFsaXR5PTY3LzcwICBTaWduYWwgbGV2ZWw9LTQzIGRCbSAgICAgICAgICAgICAgICAgICAgICBFU1NJRDoiTkVUR0VBUjE5Ig
+[07/31/2018 16:44:10] [*] Data received:
+ICAgICAgICAgIENlbGwgMDEgLSBBZGRyZXNzOiBFQzo4QzpBMjoyQzo2MzpEOCAgICAgICAgICAgICAgICAgICAgUXVhbGl0eT01OS83MCAgU2lnbmFsIGxldmVsPS01MSBkQm0gICAgICAgICAgICAgICAgICAgICAgRVNTSUQ6IlNFQzUwNCIgICAgICAgICAgQ2VsbCAwMiAtIEFkZHJlc3M6IEEwOjQwOkEwOjUyOjNCOkYxICAgICAgICAgICAgICAgICAgICBRdWFsaXR5PTY3LzcwICBTaWduYWwgbGV2ZWw9LTQzIGRCbSAgICAgICAgICAgICAgICAgICAgICBFU1NJRDoiTkVUR0VBUjE5Ig
+[07/31/2018 16:44:10] [*] Decoded Data:
+          Cell 01 - Address: EC:8C:A2:2C:63:D8                    Quality=59/70  Signal level=-51 dBm                      ESSID:"SEC504"          Cell 02 - Address: A0:40:A0:52:3B:F1                    Quality=67/70  Signal level=-43 dBm                      ESSID:"NETGEAR19"
+[07/31/2018 16:44:10] {"wifiAccessPoints":[{"macAddress":"EC:8C:A2:2C:63:D8","signalStrength":"-51"},{"macAddress":"A0:40:A0:52:3B:F1","signalStrength":"-43"}]}
+[07/31/2018 16:44:10] 0
+[07/31/2018 16:44:10] 1
+[07/31/2018 16:44:12] RESULT: {
+ "location": {
+  "lat": 44.332645899999996,
+  "lng": -103.6912931
+ },
+ "accuracy": 20.0
+}
+
+[07/31/2018 16:44:12] [*] Target location identified as Lat: 44.3326459, Lng: -103.6912931
+[07/25/2019 13:57:06] [*] ==================================================
+[07/25/2019 13:57:06] [*] Connection from Demo_Page @ 127.0.0.1:43028 via HTML
+[07/25/2019 13:57:06] [*] Query String: target=Demo_Page&agent=HTML
+[07/25/2019 13:57:06] [*] User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0
+[07/25/2019 13:57:06] [*] Comment: 
+[07/25/2019 13:57:06] [*] Attempting to geolocate by IP.
+[07/25/2019 13:57:08] [*] API URL used: http://uniapple.net/geoip/?ip=127.0.0.1
+[07/25/2019 13:57:08] [*] JSON object retrived:
+
+[07/25/2019 13:57:08] [!] Invalid JSON object. Giving up on host.
+[07/25/2019 13:57:32] [*] ==================================================
+[07/25/2019 13:57:32] [*] Connection from Demo_Page @ 127.0.0.1:43056 via HTML
+[07/25/2019 13:57:32] [*] Query String: target=Demo_Page&agent=HTML
+[07/25/2019 13:57:32] [*] User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0
+[07/25/2019 13:57:32] [*] Comment: 
+[07/25/2019 13:57:32] [*] Attempting to geolocate by IP.
+[07/25/2019 13:57:34] [*] API URL used: http://uniapple.net/geoip/?ip=127.0.0.1
+[07/25/2019 13:57:34] [*] JSON object retrived:
+
+[07/25/2019 13:57:34] [!] Invalid JSON object. Giving up on host.
