@@ -23,15 +23,15 @@ uninstall()
     exit 2
     fi
 
-    cd /opt
-    rm -rf ghostwriting
+    
+    rm -rf /opt/ghostwriting
     echo "Ghostwriting uninstalled."
     exit 0
 }
 
 
 
-if [`whoami` != `root`]; then
+if [ `whoami` != 'root' ]; then
     echo "Ghostwriting can only be installed with root or sudo.";
     exit 1
 fi
