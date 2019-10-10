@@ -69,10 +69,9 @@ setup() {
 
 
 install() {
-	# Link to auxilliary scripts here!
 	echo "[+] Installing annoyance tools"
 	for f in 1-annoyance/*.sh; do
-		./$f -i
+		bash $f -i
 	done
 	
 	echo
@@ -81,11 +80,69 @@ install() {
 	
 	echo "[+] Installing Attribution tools"
 	for f in 2-attribution/*.sh; do
-		./$f -i
+		bash $f -i
 	done
 	
 	echo
 	echo "[+] Finished installing attribution tools"
+	echo
+
+	echo "[+] Installing Absolution tools"
+	for f in 3-absolution/*.sh; do
+		bash $f -i
+	done
+
+	echo
+	echo "[+] Finished installing absolution tools"
+	echo
+
+	echo "[+] Installing Attack tools"
+	for f in 4-attack/*.sh; do
+		bash $f -i
+	done
+
+	echo
+	echo "[+] Finished installing attack tools"
+	echo
+}
+
+
+
+uninstall() {
+	echo "[+] Uninstalling annoyance tools"
+	for f in 1-annoyance/*.sh; do
+		bash $f -u
+	done
+	
+	echo
+	echo "[+] Finished uninstalling annoyance tools"
+	echo
+	
+	echo "[+] Uninstalling Attribution tools"
+	for f in 2-attribution/*.sh; do
+		bash $f -u
+	done
+	
+	echo
+	echo "[+] Finished uninstalling attribution tools"
+	echo
+
+	echo "[+] Uninstalling Absolution tools"
+	for f in 3-absolution/*.sh; do
+		bash $f -u
+	done
+
+	echo
+	echo "[+] Finished uninstalling absolution tools"
+	echo
+
+	echo "[+] Uninstalling Attack tools"
+	for f in 4-attack/*.sh; do
+		bash $f -u
+	done
+
+	echo
+	echo "[+] Finished uninstalling attack tools"
 	echo
 }
 
@@ -106,15 +163,16 @@ echo "#=============================#"
 echo "#    blackhillsinfosec.com    #"
 echo "###############################"
 
-
 case "$1" in
 	-i|--install)
 		echo "[+] Installing ADHD"
 		setup
-		install;;
+		install
+		echo "[+] Done installing ADHD!";;
         -u|--uninstall)
                 echo "[+] Uninstalling ADHD"
-                uninstall;;
+                uninstall
+		echo "[+] Done uninstalling ADHD!";;
         *)
                 echo "Usage:
 		sudo ./adhd-install.sh [-i|--install]
