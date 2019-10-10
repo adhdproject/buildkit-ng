@@ -24,15 +24,15 @@ uninstall()
     exit 2
     fi
 
-    cd /opt
-    rm -rf recon-ng
+    
+    rm -rf /opt/recon-ng
     echo "recon-ng uninstalled."
     exit 0
 }
 
 
 
-if [`whoami` != `root`]; then
+if [ `whoami` != 'root' ]; then
     echo "recon-ng can only be installed with root or sudo.";
     exit 1
 fi
