@@ -61,89 +61,71 @@ setup() {
 		fi
 	done < prerequisites.txt
 
-	echo
-	echo "[+] Finished installing prerequisites"
-	echo
+	printf "\n[+] Finished installing prerequisites\n"
 }
 
 
 
 install() {
-	echo "[+] Installing annoyance tools"
+	printf "\n[+] Installing annoyance tools\n"
 	for f in 1-annoyance/*.sh; do
 		bash $f -i
 	done
+
+	printf "\n[+] Finished installing annoyance tools\n"
 	
-	echo
-	echo "[+] Finished installing annoyance tools"
-	echo
-	
-	echo "[+] Installing Attribution tools"
+	printf "\n[+] Installing Attribution tools\n\n"
 	for f in 2-attribution/*.sh; do
 		bash $f -i
 	done
-	
-	echo
-	echo "[+] Finished installing attribution tools"
-	echo
 
-	echo "[+] Installing Absolution tools"
+	printf "\n[+] Finished installing attribution tools\n"
+
+	printf "\n[+] Installing Absolution tools\n\n"
 	for f in 3-absolution/*.sh; do
 		bash $f -i
 	done
 
-	echo
-	echo "[+] Finished installing absolution tools"
-	echo
+	printf "\n[+] Finished installing absolution tools\n"
 
-	echo "[+] Installing Attack tools"
+	printf "\n[+] Installing Attack tools\n\n"
 	for f in 4-attack/*.sh; do
 		bash $f -i
 	done
 
-	echo
-	echo "[+] Finished installing attack tools"
-	echo
+	printf "\n[+] Finished installing attack tools\n"
 }
 
 
 
 uninstall() {
-	echo "[+] Uninstalling annoyance tools"
+	printf "\n[+] Uninstalling annoyance tools\n"
 	for f in 1-annoyance/*.sh; do
 		bash $f -u
 	done
+
+	printf "\n[+] Finished uninstalling annoyance tools\n"
 	
-	echo
-	echo "[+] Finished uninstalling annoyance tools"
-	echo
-	
-	echo "[+] Uninstalling Attribution tools"
+	printf "\n[+] Uninstalling Attribution tools\n\n"
 	for f in 2-attribution/*.sh; do
 		bash $f -u
 	done
-	
-	echo
-	echo "[+] Finished uninstalling attribution tools"
-	echo
 
-	echo "[+] Uninstalling Absolution tools"
+	printf "\n[+] Finished uninstalling attribution tools\n"
+
+	printf "\n[+] Uninstalling Absolution tools\n\n"
 	for f in 3-absolution/*.sh; do
 		bash $f -u
 	done
 
-	echo
-	echo "[+] Finished uninstalling absolution tools"
-	echo
+	printf "\n[+] Finished uninstalling absolution tools\n"
 
-	echo "[+] Uninstalling Attack tools"
+	printf "\n[+] Uninstalling Attack tools\n\n"
 	for f in 4-attack/*.sh; do
 		bash $f -u
 	done
 
-	echo
-	echo "[+] Finished uninstalling attack tools"
-	echo
+	printf "\n[+] Finished uninstalling attack tools\n"
 }
 
 
