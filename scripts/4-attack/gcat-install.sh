@@ -1,11 +1,10 @@
 #!/bin/bash
 #Installation of gcat
 
-install()
-{
+install() {
     if [ -d "/opt/gcat" ]; then
-    echo "Gcat is already installed. Exiting.";
-    exit 2
+	    echo "Gcat is already installed. Exiting.";
+	    exit 2
     fi
 
     git clone https://github.com/byt3bl33d3r/gcat
@@ -17,22 +16,20 @@ install()
     exit 0
 }
 
-uninstall()
-{
+uninstall() {
     if [ ! -d "/opt/gcat" ]; then
-    echo "Gcat is not installed. Exiting.";
-    exit 2
+	    echo "Gcat is not installed. Exiting.";
+	    exit 2
     fi
 
-    cd /opt
-    rm -rf gcat
+    rm -rf /opt/gcat
     echo "gcat uninstalled."
     exit 0
 }
 
 
 
-if [`whoami` != `root`]; then
+if [ `whoami` != 'root' ]; then
     echo "Gcat can only be installed with root or sudo.";
     exit 1
 fi
