@@ -24,15 +24,15 @@ uninstall()
     exit 2
     fi
 
-    cd /opt
-    rm -rf java-web-app
+    
+    rm -rf /opt/java-web-app
     echo "Java-web-app uninstalled."
     exit 0
 }
 
 
 
-if [`whoami` != `root`]; then
+if [ `whoami` != 'root' ]; then
     echo "Java-web-app can only be installed with root or sudo.";
     exit 1
 fi
