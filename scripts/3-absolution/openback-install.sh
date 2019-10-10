@@ -4,8 +4,8 @@
 install()
 {
     if [ -d "/opt/openbac" ]; then
-    echo "openbac is already installed. Exiting.";
-    exit 2
+	    echo "openbac is already installed. Exiting.";
+	    exit 2
     fi
 
     
@@ -19,19 +19,18 @@ install()
 uninstall()
 {
     if [ ! -d "/opt/openbac" ]; then
-    echo "openbac is not installed. Exiting.";
-    exit 2
+	    echo "openbac is not installed. Exiting.";
+	    exit 2
     fi
 
-    cd /opt
-    rm -rf openbac
+    rm -rf /opt/openbac
     echo "openbac uninstalled."
     exit 0
 }
 
 
 
-if [`whoami` != `root`]; then
+if [ `whoami` != 'root' ]; then
     echo "openbac can only be installed with root or sudo.";
     exit 1
 fi

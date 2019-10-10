@@ -4,8 +4,8 @@
 install()
 {
     if [ -d "/opt/human.py" ]; then
-    echo "human.py is already installed. Exiting.";
-    exit 2
+	    echo "human.py is already installed. Exiting.";
+	    exit 2
     fi
 
     
@@ -19,19 +19,18 @@ install()
 uninstall()
 {
     if [ ! -d "/opt/human.py" ]; then
-    echo "human.py is not installed. Exiting.";
-    exit 2
+	    echo "human.py is not installed. Exiting.";
+	    exit 2
     fi
 
-    cd /opt
-    rm -rf human.py
+    rm -rf /opt/human.py
     echo "human.py uninstalled."
     exit 0
 }
 
 
 
-if [`whoami` != `root`]; then
+if [ `whoami` != 'root' ]; then
     echo "human.py can only be installed with root or sudo.";
     exit 1
 fi

@@ -4,8 +4,8 @@
 install()
 {
     if [ -d "/opt/TALOS" ]; then
-    echo "TALOS is already installed. Exiting.";
-    exit 2
+	    echo "TALOS is already installed. Exiting.";
+	    exit 2
     fi
 
     
@@ -19,19 +19,18 @@ install()
 uninstall()
 {
     if [ ! -d "/opt/TALOS" ]; then
-    echo "TALOS is not installed. Exiting.";
-    exit 2
+	    echo "TALOS is not installed. Exiting.";
+	    exit 2
     fi
 
-    cd /opt
-    rm -rf TALOS
+    rm -rf /opt/TALOS
     echo "TALOS uninstalled."
     exit 0
 }
 
 
 
-if [`whoami` != `root`]; then
+if [ `whoami` != 'root' ]; then
     echo "TALOS can only be installed with root or sudo.";
     exit 1
 fi

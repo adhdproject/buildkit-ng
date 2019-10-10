@@ -4,8 +4,8 @@
 install()
 {
     if [ -d "/opt/sweeper" ]; then
-    echo "sweeper is already installed. Exiting.";
-    exit 2
+	    echo "sweeper is already installed. Exiting.";
+	    exit 2
     fi
 
     
@@ -19,19 +19,18 @@ install()
 uninstall()
 {
     if [ ! -d "/opt/sweeper" ]; then
-    echo "sweeper is not installed. Exiting.";
-    exit 2
+	    echo "sweeper is not installed. Exiting.";
+	    exit 2
     fi
 
-    cd /opt
-    rm -rf sweeper
+    rm -rf /opt/sweeper
     echo "sweeper uninstalled."
     exit 0
 }
 
 
 
-if [`whoami` != `root`]; then
+if [ `whoami` != 'root' ]; then
     echo "sweeper can only be installed with root or sudo.";
     exit 1
 fi

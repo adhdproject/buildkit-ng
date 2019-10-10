@@ -4,8 +4,8 @@
 install()
 {
     if [ -d "/opt/lockdown" ]; then
-    echo "lockdown is already installed. Exiting.";
-    exit 2
+	    echo "lockdown is already installed. Exiting.";
+	    exit 2
     fi
 
     
@@ -19,19 +19,18 @@ install()
 uninstall()
 {
     if [ ! -d "/opt/lockdown" ]; then
-    echo "lockdown is not installed. Exiting.";
-    exit 2
+	    echo "lockdown is not installed. Exiting.";
+	    exit 2
     fi
 
-    cd /opt
-    rm -rf lockdown
+    rm -rf /opt/lockdown
     echo "lockdown uninstalled."
     exit 0
 }
 
 
 
-if [`whoami` != `root`]; then
+if [ `whoami` != 'root' ]; then
     echo "lockdown can only be installed with root or sudo.";
     exit 1
 fi

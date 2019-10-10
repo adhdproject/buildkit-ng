@@ -4,8 +4,8 @@
 install()
 {
     if [ -d "/opt/simple-pivot-detect" ]; then
-    echo "simple-pivot-detect is already installed. Exiting.";
-    exit 2
+	    echo "simple-pivot-detect is already installed. Exiting.";
+	    exit 2
     fi
 
     
@@ -19,19 +19,18 @@ install()
 uninstall()
 {
     if [ ! -d "/opt/simple-pivot-detect" ]; then
-    echo "simple-pivot-detect is not installed. Exiting.";
-    exit 2
+	    echo "simple-pivot-detect is not installed. Exiting.";
+	    exit 2
     fi
 
-    cd /opt
-    rm -rf simple-pivot-detect
+    rm -rf /opt/simple-pivot-detect
     echo "simple-pivot-detect uninstalled."
     exit 0
 }
 
 
 
-if [`whoami` != `root`]; then
+if [ `whoami` != 'root' ]; then
     echo "simple-pivot-detect can only be installed with root or sudo.";
     exit 1
 fi
