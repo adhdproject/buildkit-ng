@@ -22,6 +22,7 @@ install() {
 uninstall() {
 	if [ ! -d "/opt/honeyports/cross-platform/honeyports/" ]; then
 		echo "Honey Ports is not installed. Nothing to do.";
+		exit 2;
 	fi
 
 	rm -rf /opt/honeyports
