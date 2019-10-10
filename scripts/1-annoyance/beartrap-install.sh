@@ -19,6 +19,7 @@ install() {
 uninstall() {
 	if [ ! -d "/opt/beartrap" ]; then
 		echo "Bear Trap is not installed. Nothing to do.";
+		exit 2;
 	fi
 
 	rm -rf /opt/beartrap
