@@ -24,15 +24,15 @@ uninstall()
     exit 2
     fi
 
-    cd /opt
-    rm -rf social-engineer-toolkit
+    
+    rm -rf /opt/social-engineer-toolkit
     echo "social-engineer-toolkit uninstalled."
     exit 0
 }
 
 
 
-if [`whoami` != `root`]; then
+if [ `whoami` != 'root' ]; then
     echo "social-engineer-toolkit can only be installed with root or sudo.";
     exit 1
 fi
