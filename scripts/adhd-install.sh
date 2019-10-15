@@ -68,30 +68,38 @@ setup() {
 
 install() {
 	printf "\n[+] Installing annoyance tools\n"
-	for f in 1-annoyance/*.sh; do
+	pushd 1-annoyance
+	for f in *.sh; do
 		bash $f -i
 	done
+	popd
 
 	printf "\n[+] Finished installing annoyance tools\n"
 	
 	printf "\n[+] Installing Attribution tools\n\n"
-	for f in 2-attribution/*.sh; do
+	pushd 2-attribution
+	for f in *.sh; do
 		bash $f -i
 	done
+	popd
 
 	printf "\n[+] Finished installing attribution tools\n"
 
 	printf "\n[+] Installing Absolution tools\n\n"
-	for f in 3-absolution/*.sh; do
+	pushd 3-absolution
+	for f in *.sh; do
 		bash $f -i
 	done
+	popd
 
 	printf "\n[+] Finished installing absolution tools\n"
 
 	printf "\n[+] Installing Attack tools\n\n"
-	for f in 4-attack/*.sh; do
+	pushd 4-attack
+	for f in *.sh; do
 		bash $f -i
 	done
+	popd
 
 	printf "\n[+] Finished installing attack tools\n"
 }
@@ -100,30 +108,38 @@ install() {
 
 uninstall() {
 	printf "\n[+] Uninstalling annoyance tools\n"
-	for f in 1-annoyance/*.sh; do
+	pushd 1-annoyance
+	for f in *.sh; do
 		bash $f -u
 	done
+	popd
 
 	printf "\n[+] Finished uninstalling annoyance tools\n"
 	
 	printf "\n[+] Uninstalling Attribution tools\n\n"
-	for f in 2-attribution/*.sh; do
+	pushd 2-attribution
+	for f in *.sh; do
 		bash $f -u
 	done
+	popd
 
 	printf "\n[+] Finished uninstalling attribution tools\n"
 
 	printf "\n[+] Uninstalling Absolution tools\n\n"
-	for f in 3-absolution/*.sh; do
+	pushd 3-absolution
+	for f in *.sh; do
 		bash $f -u
 	done
+	popd
 
 	printf "\n[+] Finished uninstalling absolution tools\n"
 
 	printf "\n[+] Uninstalling Attack tools\n\n"
-	for f in 4-attack/*.sh; do
+	pushd 4-attack
+	for f in *.sh; do
 		bash $f -u
 	done
+	popd
 
 	printf "\n[+] Finished uninstalling attack tools\n"
 }
