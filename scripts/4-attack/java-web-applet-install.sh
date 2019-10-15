@@ -8,7 +8,7 @@ install()
     exit 2
     fi
 
-    git clone git clone https://bitbucket.org/ethanr/java-web-attack
+    git clone https://bitbucket.org/ethanr/java-web-attack
     mv java-web-attack/ /opt/
     
 
