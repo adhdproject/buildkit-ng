@@ -10,6 +10,9 @@ install() {
 	
 	git clone https://github.com/adhdproject/honeybadger
 	mv honeybadger/ /opt/honeybadgerv3
+	pushd /opt/honeybadgerv3/server
+	pip3 install -r requirements.txt
+	popd
 
 	echo "
 	HoneyBadger installed!"
