@@ -8,7 +8,7 @@ install() {
 		exit 2
 	fi
 
-	git clone https://github.com/gbrindisi/wordpot
+	git clone https://github.com/adhdproject/wordpot
 	mv wordpot/ /opt/
 	pushd /opt/wordpot
 	pip install -r requirements.txt

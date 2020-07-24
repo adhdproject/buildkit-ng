@@ -1,3 +1,0 @@
-load local/honeyports/basic
-set port 8080
-run

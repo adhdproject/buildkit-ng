@@ -8,7 +8,7 @@ install() {
 		exit 2
 	fi
 
-	git clone https://bitbucket.org/ethanr/spidertrap
+	git clone https://github.com/adhdproject/spidertrap
 	mv spidertrap/ /opt/
 
 	echo "

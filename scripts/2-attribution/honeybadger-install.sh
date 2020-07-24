@@ -3,14 +3,14 @@
 # Time to install HoneyBadger!
 
 install() {
-	if [ -d "/opt/honeybadgerv3" ]; then
+	if [ -d "/opt/honeybadger" ]; then
 		echo "HoneyBadger is already installed. Exiting."
 		exit 2
 	fi
 	
 	git clone https://github.com/adhdproject/honeybadger
-	mv honeybadger/ /opt/honeybadgerv3
-	pushd /opt/honeybadgerv3/server
+	mv honeybadger/ /opt/honeybadger
+	pushd /opt/honeybadger/server
 	pip3 install -r requirements.txt
 	popd
 
@@ -20,12 +20,12 @@ install() {
 }
 
 uninstall() {
-	if [ ! -d "/opt/honeybadgerv3" ]; then
+	if [ ! -d "/opt/honeybadger" ]; then
 		echo "HoneyBadger is not installed. Nothing to do."
 		exit 2
 	fi
 
-	rm -rf /opt/honeybadgerv3
+	rm -rf /opt/honeybadger
 
 	echo "
 	HoneyBadger uninstalled!"

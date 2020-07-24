@@ -85,17 +85,8 @@ install() {
 
 	printf "\n[+] Finished installing attribution tools\n"
 
-	printf "\n[+] Installing Absolution tools\n\n"
-	pushd 3-absolution
-	for f in *.sh; do
-		bash $f -i
-	done
-	popd
-
-	printf "\n[+] Finished installing absolution tools\n"
-
 	printf "\n[+] Installing Attack tools\n\n"
-	pushd 4-attack
+	pushd 3-attack
 	for f in *.sh; do
 		bash $f -i
 	done
@@ -125,17 +116,8 @@ uninstall() {
 
 	printf "\n[+] Finished uninstalling attribution tools\n"
 
-	printf "\n[+] Uninstalling Absolution tools\n\n"
-	pushd 3-absolution
-	for f in *.sh; do
-		bash $f -u
-	done
-	popd
-
-	printf "\n[+] Finished uninstalling absolution tools\n"
-
 	printf "\n[+] Uninstalling Attack tools\n\n"
-	pushd 4-attack
+	pushd 3-attack
 	for f in *.sh; do
 		bash $f -u
 	done

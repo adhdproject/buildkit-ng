@@ -8,7 +8,7 @@ install() {
 		exit 2
 	fi
 
-	git clone https://bitbucket.org/Zaeyx/rubberglue
+	git clone https://github.com/adhdproject/rubberglue
 	mv rubberglue/ /opt/
 
 	echo "

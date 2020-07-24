@@ -11,7 +11,7 @@ install() {
 	# The old version on google code is archived, but this version of honeyports-0.4a.py
 	# has no differences between the other version, so it shouldn't be a problem.
 	mkdir -p /opt/honeyports/cross-platform/
-	git clone https://github.com/gchetrick/honeyports.git
+	git clone https://github.com/adhdproject/honeyports.git
 	mv honeyports/ /opt/honeyports/cross-platform/
 
 	echo "

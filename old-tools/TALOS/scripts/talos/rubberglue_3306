@@ -1,3 +1,0 @@
-use local/honeyports/rubberglue
-set port 3306
-run
