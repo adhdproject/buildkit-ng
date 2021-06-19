@@ -19,13 +19,13 @@ install()
 
 uninstall()
 {
-    if [ ! -d "/opt/java-web-app" ]; then
-    echo "Gcat is not installed. Exiting.";
+    if [ ! -d "/opt/java-web-attack" ]; then
+    echo "Java-web-app is not installed. Exiting.";
     exit 2
     fi
 
     
-    rm -rf /opt/java-web-app
+    rm -rf /opt/java-web-attack
     echo "Java-web-app uninstalled."
     exit 0
 }
