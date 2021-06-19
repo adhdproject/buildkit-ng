@@ -18,7 +18,7 @@ install() {
 }
 
 uninstall() {
-	if [ ! -f "/opt/psad" ]; then
+	if [ ! -d "/opt/psad" ]; then
 		echo "PSAD is not installed. Nothing to do."
 		exit 2
 	fi
