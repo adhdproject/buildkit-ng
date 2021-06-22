@@ -2,6 +2,11 @@
 
 
 
+# Global Variables
+path="."
+
+
+
 setup() {
 	echo "This script will need to associate a user account with all the tools."
 	echo "Enter the name of a user account you want associated with the install."
@@ -68,7 +73,7 @@ setup() {
 
 install() {
 	printf "\n[+] Installing annoyance tools\n"
-	pushd 1-annoyance
+	pushd $path/1-annoyance
 	for f in *.sh; do
 		bash $f -i
 	done
@@ -77,7 +82,7 @@ install() {
 	printf "\n[+] Finished installing annoyance tools\n"
 	
 	printf "\n[+] Installing Attribution tools\n\n"
-	pushd 2-attribution
+	pushd $path/2-attribution
 	for f in *.sh; do
 		bash $f -i
 	done
@@ -86,7 +91,7 @@ install() {
 	printf "\n[+] Finished installing attribution tools\n"
 
 	printf "\n[+] Installing Attack tools\n\n"
-	pushd 3-attack
+	pushd $path/3-attack
 	for f in *.sh; do
 		bash $f -i
 	done
@@ -99,7 +104,7 @@ install() {
 
 uninstall() {
 	printf "\n[+] Uninstalling annoyance tools\n"
-	pushd 1-annoyance
+	pushd $path/1-annoyance
 	for f in *.sh; do
 		bash $f -u
 	done
@@ -108,7 +113,7 @@ uninstall() {
 	printf "\n[+] Finished uninstalling annoyance tools\n"
 	
 	printf "\n[+] Uninstalling Attribution tools\n\n"
-	pushd 2-attribution
+	pushd $path/2-attribution
 	for f in *.sh; do
 		bash $f -u
 	done
@@ -117,7 +122,7 @@ uninstall() {
 	printf "\n[+] Finished uninstalling attribution tools\n"
 
 	printf "\n[+] Uninstalling Attack tools\n\n"
-	pushd 3-attack
+	pushd $path/3-attack
 	for f in *.sh; do
 		bash $f -u
 	done
@@ -126,6 +131,12 @@ uninstall() {
 	printf "\n[+] Finished uninstalling attack tools\n"
 }
 
+# Sets the proper working directory for bash so that the installation script can be executed from anywhere on the machine.
+set_proper_cwd() {
+	# Thanks to ndim: https://stackoverflow.com/questions/3349105/how-can-i-set-the-current-working-directory-to-the-directory-of-the-script-in-ba#3355423 
+	path="$(dirname "$0")"
+	echo "Set proper cwd"
+}
 
 
 if [ `whoami` != 'root' ]; then
@@ -142,6 +153,9 @@ echo "# /_/   \_\____/|_| |_|____/  #"
 echo "#=============================#"
 echo "#    blackhillsinfosec.com    #"
 echo "###############################"
+
+
+set_proper_cwd
 
 case "$1" in
 	-i|--install)
