@@ -60,11 +60,16 @@ setup() {
 	echo "[+] Sources updated"
 	
 	echo "[+] Installing prerequisite packages for ADHD"
+
+	pushd $path
+
 	while read prereq; do
 		if [[ $prereq != *"#"* ]]; then
 			$package_manager -y install $prereq
 		fi
 	done < prerequisites.txt
+
+	popd
 
 	printf "\n[+] Finished installing prerequisites\n"
 }
