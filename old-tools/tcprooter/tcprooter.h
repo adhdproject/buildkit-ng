@@ -28,7 +28,7 @@
 #include <netinet/ip_icmp.h>
 
 
-int main(int, char **);
+void main(int, char **);
 void myexit(int, char *);
 void accept_connections();
 void sigexit();
