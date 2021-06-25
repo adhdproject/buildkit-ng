@@ -12,7 +12,7 @@ install() {
 	cp -R ../../old-tools/decloak/var/decloak /var/www/
 
 	echo "
-	Decloak installed!"
+	Decloak installed to /opt/decloak/!"
 	exit 0
 }
 

@@ -12,7 +12,7 @@ install() {
     
 
     echo "
-    Gcat installed!"
+    Gcat installed to /opt/gcat/!"
     exit 0
 }
 

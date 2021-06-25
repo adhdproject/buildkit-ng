@@ -12,7 +12,7 @@ install() {
 	mv kippo/ /opt/
 
 	echo "
-	Kippo installed!"
+	Kippo installed to /opt/kippo!"
 	exit 0
 }
 

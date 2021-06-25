@@ -14,7 +14,7 @@ install() {
 	popd
 
 	echo "
-	BeEF installed!"
+	BeEF installed to /opt/beef/!"
 	exit 0
 }
 

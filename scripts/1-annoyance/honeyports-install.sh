@@ -15,7 +15,7 @@ install() {
 	mv honeyports/ /opt/honeyports/cross-platform/
 
 	echo "
-	Honey Ports installed!"
+	Honey Ports installed to /opt/honeyports/cross-platform/!"
 	exit 0
 }
 

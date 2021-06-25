@@ -13,7 +13,7 @@ install()
     
 
     echo "
-    social-engineer-toolkit installed!"
+    social-engineer-toolkit installed to /opt/social-engineer-toolkit/!"
     exit 0
 }
 

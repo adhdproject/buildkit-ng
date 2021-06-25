@@ -12,7 +12,7 @@ install() {
 	mv sqlitebugserver/ /opt/
 
 	echo "
-	Sqlite Bug Server installed!"
+	Sqlite Bug Server installed to /opt/sqlitebugserver/!"
 	exit 0
 }
 

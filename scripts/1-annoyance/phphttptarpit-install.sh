@@ -12,7 +12,7 @@ install() {
 	mv PHP-HTTP-Tarpit/ /opt/
 
 	echo "
-	PHP-HTTP-Tarpit installed!"
+	PHP-HTTP-Tarpit installed to /opt/PHP-HTTP-Tarpit!"
 	exit 0
 }
 

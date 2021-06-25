@@ -13,7 +13,7 @@ install()
     
 
     echo "
-    Recon-ng installed!"
+    Recon-ng installed to /opt/recon-ng/!"
     exit 0
 }
 

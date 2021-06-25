@@ -12,7 +12,7 @@ install() {
 	mv rubberglue/ /opt/
 
 	echo "
-	Rubberglue installed!"
+	Rubberglue installed to /opt/rubberglue!"
 	exit 0
 }
 

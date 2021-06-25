@@ -12,7 +12,7 @@ install() {
 	mv spidertrap/ /opt/
 
 	echo "
-	Spidertrap installed!"
+	Spidertrap installed to /opt/spidertrap/!"
 	exit 0
 }
 

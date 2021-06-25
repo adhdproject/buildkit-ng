@@ -12,7 +12,7 @@ install() {
 	mv webbugserver/ /opt/
 
 	echo "
-	Web Bug Server installed!"
+	Web Bug Server installed to /opt/webbugserver/!"
 	exit 0
 }
 

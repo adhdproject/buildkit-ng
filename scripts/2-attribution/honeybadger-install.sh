@@ -15,7 +15,7 @@ install() {
 	popd
 
 	echo "
-	HoneyBadger installed!"
+	HoneyBadger installed to /opt/honeybadger/!"
 	exit 0
 }
 

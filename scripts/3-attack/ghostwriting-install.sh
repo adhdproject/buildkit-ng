@@ -12,7 +12,7 @@ install()
     cp -R ../../old-tools/ghostwriting /opt/
 
     echo "
-    Ghostwriting installed!"
+    Ghostwriting installed to /opt/ghostwriting/!"
     exit 0
 }
 

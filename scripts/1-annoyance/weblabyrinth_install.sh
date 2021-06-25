@@ -12,7 +12,7 @@ install() {
 	mv weblabyrinth/ /var/www/
 
 	echo "
-	Weblabyrinth installed!"
+	Weblabyrinth installed to /var/www/weblabyrinth/"
 	exit 0
 }
 

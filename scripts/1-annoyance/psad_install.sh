@@ -13,7 +13,7 @@ install() {
 	/opt/psad/install.pl
 
 	echo "
-	PSAD installed!"
+	PSAD installed to /opt/psad/!"
 	exit 0
 }
 
