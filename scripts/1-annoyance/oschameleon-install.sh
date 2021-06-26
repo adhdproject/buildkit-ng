@@ -13,7 +13,7 @@ install() {
 	cp -R ../../old-tools/oschameleon /opt/
 
 	echo "
-	OSChameleon installed!"
+	OSChameleon installed to /opt/oschameleon/!"
 	exit 0
 }
 

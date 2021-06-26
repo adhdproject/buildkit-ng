@@ -11,7 +11,7 @@ install() {
 	cp -R ../../old-tools/tcprooter /opt/
 
 	echo "
-	TCPRooter installed!"
+	TCPRooter installed to /opt/tcprooter/"
 	exit 0
 }
 

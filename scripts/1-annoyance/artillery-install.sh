@@ -59,7 +59,7 @@ case "$1" in
 			echo "[!] Artillery is already installed. Exiting."
 		elif [ $ret -eq 0 ]; then
 			echo
-			echo "[+] Artillery installed!"
+			echo "[+] Artillery installed to /var/artillery/!"
 		fi;;
 	-u|--uninstall)
 		uninstall

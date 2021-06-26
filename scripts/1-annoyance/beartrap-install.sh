@@ -12,7 +12,7 @@ install() {
 	mv beartrap/ /opt/
 
 	echo "
-	Bear Trap installed!"
+	Bear Trap installed to /opt/beartrap/!"
 	exit 0
 }
 

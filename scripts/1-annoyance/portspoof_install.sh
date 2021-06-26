@@ -16,7 +16,7 @@ install() {
 	rm -rf portspoof
 
 	echo "
-	Portspoof installed!"
+	Portspoof installed to /usr/local/bin/portspoof!"
 	exit 0
 }
 

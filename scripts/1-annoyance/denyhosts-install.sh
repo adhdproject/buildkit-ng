@@ -16,7 +16,7 @@ install() {
 	rm -rf denyhosts
 	
 	echo "
-	DenyHosts installed!"
+	DenyHosts installed as python package!"
 	exit 0
 }
 

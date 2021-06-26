@@ -12,7 +12,7 @@ install() {
 	mv jar-combiner/ /opt/
 
 	echo "
-	Jar-Combiner installed!"
+	Jar-Combiner installed to /opt/jar-combiner/!"
 	exit 0
 }
 

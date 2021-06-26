@@ -15,7 +15,7 @@ install() {
 	popd
 
 	echo "
-	Wordpot installed!"
+	Wordpot installed to /opt/wordpot/!"
 	exit 0
 }
 

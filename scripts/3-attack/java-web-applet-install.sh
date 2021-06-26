@@ -13,7 +13,7 @@ install()
     
 
     echo "
-    Java-web-app installed!"
+    Java-web-app installed to /opt/java-web-attack/!"
     exit 0
 }
 
