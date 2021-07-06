@@ -322,6 +322,7 @@ function use_cli(){
 function use_term_gui(){
 	case "$1" in
 				-i|--install)
+					setup_gui
 					mode="Install"
 					mode_abreviation="-i"
 					gui_mode "$mode_abreviation";;
@@ -359,7 +360,6 @@ function info_screen(){
 case "$2" in
 	-g|--graphical)
 		info_screen
-		setup_gui
 		use_term_gui "$1";;
 	*)
 			use_cli "$1";;
