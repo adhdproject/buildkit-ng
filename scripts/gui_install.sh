@@ -16,13 +16,14 @@ setup_gui(){
 	# need to install whiptail if it isn't present
 
 
-	local acct_msg_1="This script will need to associate a user account with all the tools.
-	Enter the name of a user you would like to be associated with the install.
-	If you enter a new account name, it will be created."
+	local acct_msg_1="This script will need to associate a user account with all the tools.\
+	Enter the name of a user you would like to be associated with the install.\
+	If you enter a new account name, it will be created.
+	
+	"
 
 	account=$(whiptail --title User --inputbox "$acct_msg_1" 15 78 "adhd" 3>&2 2>&1 1>&3)
 
-	echo "$account"
 	whiptail_post_process $?
 
 	if [ ${#account} == 0 ]; then
@@ -54,7 +55,9 @@ setup_gui(){
 
 	pkg_msg="Detected that the operating system is $distro, and will use\
 	 $package_manager as the system package manager to install dependencies.\
-	 If this is incorrect, enter the correct package manager."
+	 If this is incorrect, enter the correct package manager.
+	 
+	 "
 
 	package_manager=$(whiptail --title "Package Manager Selection" --inputbox "$pkg_msg" 15 78 "$package_manager" 3>&2 2>&1 1>&3)
 
@@ -64,7 +67,7 @@ setup_gui(){
 
 
 	#=====================Install Pre-reqs=====================#
-	pushd $path
+	pushd $path > /dev/null
 
 	count=$(wc -l prerequisites.txt |cut -d " " -f1)
 
@@ -80,7 +83,7 @@ setup_gui(){
 
 	done < prerequisites.txt
 
-	popd
+	popd > /dev/null
 }
 
 
@@ -138,7 +141,7 @@ setup() {
 	
 	echo "[+] Installing prerequisite packages for ADHD"
 
-	pushd $path
+	pushd $path > /dev/null
 
 	while read prereq; do
 		if [[ $prereq != *"#"* ]]; then
@@ -250,22 +253,22 @@ function perform_action(){
 }
 
 function gui_mode(){
-	pushd ./1-annoyance/
+	pushd ./1-annoyance/ > /dev/null
 	collect_info
 	perform_action $1
-	popd
+	popd > /dev/null
 
 
-	pushd ./2-attribution/
+	pushd ./2-attribution/ > /dev/null
 	collect_info
 	perform_action $1
-	popd
+	popd > /dev/null
 
 
-	pushd ./3-attack/
+	pushd ./3-attack/ > /dev/null
 	collect_info
 	perform_action $1
-	popd
+	popd > /dev/null
 }
 
 
