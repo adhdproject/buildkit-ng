@@ -226,6 +226,7 @@ function collect_info(){
 	#Initialize empty array
 	files=()
 
+	local tool_category=$1
 
 	#Iterate through all files ending in .sh in directory and add to array
 	for file in *.sh;
@@ -236,7 +237,7 @@ function collect_info(){
 	done
 
 
-	TOOLS=$(whiptail --title "Anoyance Tools $mode" --checklist "Choose" 16 78 10 "${files[@]}" 3>&2 2>&1  1>&3)
+	TOOLS=$(whiptail --title "$tool_category Tools $mode" --checklist "Choose" 16 78 10 "${files[@]}" 3>&2 2>&1  1>&3)
 
 	whiptail_post_process $?
 
@@ -254,19 +255,19 @@ function perform_action(){
 
 function gui_mode(){
 	pushd ./1-annoyance/ > /dev/null
-	collect_info
+	collect_info "Annoyance"
 	perform_action $1
 	popd > /dev/null
 
 
 	pushd ./2-attribution/ > /dev/null
-	collect_info
+	collect_info "Attribution"
 	perform_action $1
 	popd > /dev/null
 
 
 	pushd ./3-attack/ > /dev/null
-	collect_info
+	collect_info "Attack"
 	perform_action $1
 	popd > /dev/null
 }
