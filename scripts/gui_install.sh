@@ -71,9 +71,9 @@ setup_gui(){
 
 	count=$(wc -l prerequisites.txt |cut -d " " -f1)
 
-	completed=0
+	local completed=0
 
-	step=$((100 / $count))
+	local step=$((100 / $count))
 
 	while read prereq; do
 		if [[ $prereq != *"#"* ]]; then
@@ -246,10 +246,19 @@ function collect_info(){
 # Function to perform install or uninstall action
 function perform_action(){
 	another=($TOOLS)
+	local length=${#another[@]}
+
+	local ing="ing"
+
+	local completed=0
+
+	local step=$((100 / $length))
 
 	for file in  "${another[@]}";
 	do
-		bash $(echo "$file" | tr -d '"') $1
+		local file_name=$(echo "$file" | tr -d '"')
+		bash $file_name $1 | whiptail --gauge "$mode$ing $file_name" 10 50 $completed  #Is there some sort of waiting we could do?
+		completed=$(($completed + $step))
 	done
 }
 
@@ -325,7 +334,8 @@ function use_term_gui(){
 					setup_gui
 					mode="Install"
 					mode_abreviation="-i"
-					gui_mode "$mode_abreviation";;
+					gui_mode "$mode_abreviation"
+					thank_you_screen;;
 					
 					-u|--uninstall)
 					mode="Uninstall"
@@ -355,6 +365,12 @@ function info_screen(){
 					https://adhdproject.github.io/#!index.md"
 
 	whiptail --title "ADHD Buildkit-ng" --msgbox "$banner \n\n\n $msg" 22 78
+}
+
+function thank_you_screen(){
+	local ty="Your installation of ADHD is complete! Happy hunting!"
+
+	whiptail --title "End Titles" --msgbox "$ty" 10 40
 }
 
 case "$2" in
