@@ -243,7 +243,7 @@ function collect_info(){
 
 }
 
-# Function to perform install or uninstall action
+# Function to perform install or uninstall action when in gui mode
 function perform_action(){
 	another=($TOOLS)
 	local length=${#another[@]}
@@ -257,7 +257,7 @@ function perform_action(){
 	for file in  "${another[@]}";
 	do
 		local file_name=$(echo "$file" | tr -d '"')
-		bash $file_name $1 | whiptail --gauge "$mode$ing $file_name" 10 50 $completed  #Is there some sort of waiting we could do?
+		bash $file_name $1 | whiptail --gauge "$mode$ing $file_name" 10 50 $completed
 		completed=$(($completed + $step))
 	done
 }
