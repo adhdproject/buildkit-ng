@@ -258,7 +258,6 @@ function perform_action(){
 	do
 		local file_name=$(echo "$file" | tr -d '"')
 		bash $file_name $1 2>&1 |grep "" | whiptail --gauge "$mode$ing $file_name" 10 50 $completed
-		wait $!
 		completed=$(($completed + $step))
 	done
 }
