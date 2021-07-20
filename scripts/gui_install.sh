@@ -3,7 +3,10 @@
 
 # Global Variables
 path="."
+selected_tools=""
 
+#Deals with exiting whiptail  .
+#If a user hits "esc", "cancel", "ok" etc.. the whole intaller exits.
 function whiptail_post_process(){
 	exit_code=$1
 
@@ -86,7 +89,6 @@ setup_gui(){
 	popd > /dev/null
 }
 
-
 setup() {
 	echo "This script will need to associate a user account with all the tools."
 	echo "Enter the name of a user account you want associated with the install."
@@ -154,8 +156,6 @@ setup() {
 	printf "\n[+] Finished installing prerequisites\n"
 }
 
-
-
 install() {
 	printf "\n[+] Installing annoyance tools\n"
 	pushd $path/1-annoyance
@@ -184,8 +184,6 @@ install() {
 
 	printf "\n[+] Finished installing attack tools\n"
 }
-
-
 
 uninstall() {
 	printf "\n[+] Uninstalling annoyance tools\n"
@@ -237,7 +235,7 @@ function collect_info(){
 	done
 
 
-	TOOLS=$(whiptail --title "$tool_category Tools $mode" --checklist "Choose" 16 78 10 "${files[@]}" 3>&2 2>&1  1>&3)
+	selected_tools=$(whiptail --title "$tool_category Tools $mode" --checklist "Choose" 16 78 10 "${files[@]}" 3>&2 2>&1  1>&3)
 
 	whiptail_post_process $?
 
@@ -245,8 +243,8 @@ function collect_info(){
 
 # Function to perform install or uninstall action when in gui mode
 function perform_action(){
-	another=($TOOLS)
-	local length=${#another[@]}
+	local array_of_tools=($selected_tools)
+	local length=${#array_of_tools[@]}
 
 	local ing="ing"
 
@@ -254,7 +252,7 @@ function perform_action(){
 
 	local step=$((100 / $length))
 
-	for file in  "${another[@]}";
+	for file in  "${array_of_tools[@]}";
 	do
 		local file_name=$(echo "$file" | tr -d '"')
 		bash $file_name $1 2>&1 |grep "" | whiptail --gauge "$mode$ing $file_name" 10 50 $completed
@@ -287,8 +285,7 @@ if [ `whoami` != 'root' ]; then
 	exit
 fi
 
-
-print_cli_banner(){
+function print_cli_banner(){
 	echo "###############################"
 	echo "#     _    ____  _   _ ____   #"
 	echo "#    / \  |  _ \| | | |  _ \  #"
@@ -299,8 +296,6 @@ print_cli_banner(){
 	echo "#    blackhillsinfosec.com    #"
 	echo "###############################"
 }
-
-set_proper_cwd
 
 function use_cli(){
 	print_cli_banner
@@ -325,8 +320,6 @@ function use_cli(){
 					sudo ./adhd-install.sh [-u|--uninstall] [-g|--graphical]";;
 			esac
 }
-
-
 
 function use_term_gui(){
 	case "$1" in
@@ -365,18 +358,29 @@ function info_screen(){
 					https://adhdproject.github.io/#!index.md"
 
 	whiptail --title "ADHD Buildkit-ng" --msgbox "$banner \n\n\n $msg" 22 78
+
+	whiptail_post_process $?
 }
 
 function thank_you_screen(){
 	local ty="Your installation of ADHD is complete! Happy hunting!"
 
 	whiptail --title "End Titles" --msgbox "$ty" 10 40
+
+	whiptail_post_process $?
 }
 
-case "$2" in
+function main(){
+	set_proper_cwd
+
+	case "$2" in
 	-g|--graphical)
 		info_screen
 		use_term_gui "$1";;
 	*)
 			use_cli "$1";;
 esac
+}
+
+
+main "$1" "$2"
