@@ -333,7 +333,8 @@ function use_term_gui(){
 					-u|--uninstall)
 					mode="Uninstall"
 					mode_abreviation="-u"
-					gui_mode "$mode_abreviation";;
+					gui_mode "$mode_abreviation"
+					uninstall_complete_screen;;		
 					*)
 							echo "Usage:
 					sudo ./adhd-install.sh [-i|--install] [-g|--graphical]
@@ -364,6 +365,14 @@ function info_screen(){
 
 function thank_you_screen(){
 	local ty="Your installation of ADHD is complete! Happy hunting!"
+
+	whiptail --title "End Titles" --msgbox "$ty" 10 40
+
+	whiptail_post_process $?
+}
+
+function uninstall_complete_screen(){
+	local ty="Thank you for using ADHD. Your uninstall is complete." 
 
 	whiptail --title "End Titles" --msgbox "$ty" 10 40
 
