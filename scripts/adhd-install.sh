@@ -224,11 +224,12 @@ function collect_info(){
 	#Initialize empty array
 	files=()
 
-	local tool_category=$1
+	local tool_category=$1	
 
 	#Iterate through all files ending in .sh in directory and add to array
 	for file in *.sh;
 	do
+		file=$(echo "$file" |cut -d "-" -f1)
 		files+=("$file")
 		files+=("$mode?")
 		files+=("ON")
@@ -247,6 +248,7 @@ function perform_action(){
 	local length=${#array_of_tools[@]}
 
 	local ing="ing"
+	local make_installable="-install.sh"
 
 	local completed=0
 
@@ -254,26 +256,26 @@ function perform_action(){
 
 	for file in  "${array_of_tools[@]}";
 	do
-		local file_name=$(echo "$file" | tr -d '"')
-		bash $file_name $1 2>&1 |grep "" | whiptail --gauge "$mode$ing $file_name" 10 50 $completed
+		local program_name=$(echo "$file" | tr -d '"')
+		bash $program_name$make_installable $1 2>&1 |grep "" | whiptail --gauge "$mode$ing $program_name" 10 50 $completed
 		completed=$(($completed + $step))
 	done
 }
 
 function gui_mode(){
-	pushd ./1-annoyance/ > /dev/null
+	pushd "$path/1-annoyance/" > /dev/null
 	collect_info "Annoyance"
 	perform_action $1
 	popd > /dev/null
 
 
-	pushd ./2-attribution/ > /dev/null
+	pushd "$path/2-attribution/" > /dev/null
 	collect_info "Attribution"
 	perform_action $1
 	popd > /dev/null
 
 
-	pushd ./3-attack/ > /dev/null
+	pushd "$path/3-attack/" > /dev/null
 	collect_info "Attack"
 	perform_action $1
 	popd > /dev/null
