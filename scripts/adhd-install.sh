@@ -66,7 +66,31 @@ setup_gui(){
 
 	whiptail_post_process $?
 
-	$package_manager update | whiptail --gauge "Updating Sources. Progress bar won't update." 10 50 40
+	$package_manager update > /dev/null 2> /dev/null &
+
+	PID=$!
+	alive_status=true
+
+	to_increment=0
+	out=""
+
+	local update_msg="Running package manager update. Please wait..." 
+
+	while [ $alive_status ]
+	do
+		sleep 1 | whiptail --gauge "$update_msg" 10 50 $to_increment
+		out=$(kill -0 "$PID" 2>&1)
+		
+		if [ -n "$out" ]; then
+			break
+		fi
+
+		to_increment=$(($to_increment + 10))
+		
+	done
+	
+	# Wait for update to finish before moving on.
+	wait $PID
 
 
 	#=====================Install Pre-reqs=====================#
