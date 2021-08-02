@@ -18,14 +18,17 @@ function whiptail_post_process(){
 setup_gui(){
 	# need to install whiptail if it isn't present
 
-
 	local acct_msg_1="This script will need to associate a user account with all the tools.\
 	Enter the name of a user you would like to be associated with the install.\
-	If you enter a new account name, it will be created.
-	
 	"
 
-	account=$(whiptail --title User --inputbox "$acct_msg_1" 15 78 "adhd" 3>&2 2>&1 1>&3)
+
+	local info="If you enter a new account name, it will be created and you will be dropped \
+	back to the CLI temporarily to enter the password.\
+
+	"
+
+	account=$(whiptail --title User --inputbox "$acct_msg_1\n$info" 15 78 "adhd" 3>&2 2>&1 1>&3)
 
 	whiptail_post_process $?
 
