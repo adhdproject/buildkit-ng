@@ -11,8 +11,16 @@ install() {
 	git clone https://github.com/activecm/rita/
 	mv rita/ /opt/
 
+	pushd /opt/rita/ > /dev/null
+	
+	./install.sh
+
+	popd
+
 	echo "
-	RITA installed to /opt/rita/!"
+	RITA installed to /opt/rita/ and /usr/local/bin
+	Zeek installed to /opt/zeek
+	Mongodb installed"
 	exit 0
 }
 

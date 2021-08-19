@@ -284,7 +284,13 @@ function perform_action(){
 	for file in  "${array_of_tools[@]}";
 	do
 		local program_name=$(echo "$file" | tr -d '"')
-		bash $program_name$make_installable $1 2>&1 |grep "" | whiptail --gauge "$mode$ing $program_name" 10 50 $completed
+
+		if [ "$program_name" == "rita" ]; then
+			bash $program_name$make_installable $1 
+		else
+			bash $program_name$make_installable $1 2>&1 |grep "" | whiptail --gauge "$mode$ing $program_name" 10 50 $completed
+		fi
+
 		completed=$(($completed + $step))
 	done
 }
