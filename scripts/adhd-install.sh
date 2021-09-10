@@ -285,7 +285,7 @@ function perform_action(){
 	do
 		local program_name=$(echo "$file" | tr -d '"')
 
-		if [ "$program_name" == "rita" ]; then
+		if [[ "$program_name" == "rita" || "$program_name" == "psad" ]]; then
 			bash $program_name$make_installable $1 
 		else
 			bash $program_name$make_installable $1 2>&1 |grep "" | whiptail --gauge "$mode$ing $program_name" 10 50 $completed

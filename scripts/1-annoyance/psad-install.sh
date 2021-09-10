@@ -10,8 +10,11 @@ install() {
 
 	git clone https://github.com/mrash/psad.git
 	mv psad/ /opt/
-	/opt/psad/install.pl
 
+	pushd /opt/psad
+	./install.pl
+	popd
+	
 	echo "
 	PSAD installed to /opt/psad/!"
 	exit 0
