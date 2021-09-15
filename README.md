@@ -1,9 +1,14 @@
 # buildkit-ng
-New version of the buildkit repository
+The builkit-ng installation utility installs many of the tools in
+the [ADHD project](https://adhdproject.github.io/#!index.md).
 
 ## Requirements
-Ubuntu 18.04 LTS
-## Install
-`./scripts/adhd-install.sh -i`
-## Uninstall
-`./scripts/adhd-install.sh -u`
+Ubuntu 20.04 LTS (64 bit)
+
+## Functionality
+Installing with `-g` will cuase the installer to use a terminal gui
+ (whiptail) instead of a text based installer. 
+### Install
+`./scripts/adhd-install.sh -i [-g]`
+### Uninstall
+`./scripts/adhd-install.sh -u [-g]`

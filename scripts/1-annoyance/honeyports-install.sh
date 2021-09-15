@@ -3,24 +3,23 @@
 # Time to install Honey Ports!
 
 install() {
-	if [ -d "/opt/honeyports/cross-platform/honeyports/" ]; then
+	if [ -d "/opt/honeyports/" ]; then
 		echo "Honey Ports is already installed. Exiting.";
 		exit 2;
 	fi
 
 	# The old version on google code is archived, but this version of honeyports-0.4a.py
 	# has no differences between the other version, so it shouldn't be a problem.
-	mkdir -p /opt/honeyports/cross-platform/
 	git clone https://github.com/adhdproject/honeyports.git
-	mv honeyports/ /opt/honeyports/cross-platform/
+	mv honeyports/ /opt/
 
 	echo "
-	Honey Ports installed to /opt/honeyports/cross-platform/!"
+	Honey Ports installed to /opt/honeyports/!"
 	exit 0
 }
 
 uninstall() {
-	if [ ! -d "/opt/honeyports/cross-platform/honeyports/" ]; then
+	if [ ! -d "/opt/honeyports/" ]; then
 		echo "Honey Ports is not installed. Nothing to do.";
 		exit 2;
 	fi

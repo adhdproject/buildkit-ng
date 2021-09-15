@@ -10,7 +10,7 @@ install() {
 	git clone https://github.com/beefproject/beef
 	mv beef/ /opt/
 	pushd /opt/beef
-	./install
+	./install #<<< y
 	popd
 
 	echo "
